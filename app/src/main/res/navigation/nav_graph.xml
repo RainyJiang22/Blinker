@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/home_fragment">
+
+    <fragment
+        android:id="@+id/home_fragment"
+        android:name="com.blinker.video.navigation.HomeFragment">
+        <action
+            android:id="@+id/navigate_to_category_fragment"
+            app:destination="@+id/category_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/category_fragment"
+        android:name="com.blinker.video.navigation.CategoryFragment">
+
+        <action
+            android:id="@+id/navigate_to_tags_fragment"
+            app:destination="@+id/tags_fragment"/>/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/tags_fragment"
+        android:name="com.blinker.video.navigation.TagsFragment">
+
+        <action
+            android:id="@+id/navigate_to_tags_fragment"
+            app:destination="@+id/user_fragment"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/user_fragment"
+        android:name="com.blinker.video.navigation.UserFragment">
+        <deepLink
+            app:action="com.blinker.video.ACTION_USER"
+            app:mimeType="type/video"
+            app:uri="https://com.blinker.video/user?phone={phone}" />
+    </fragment>
+
+
+</navigation>

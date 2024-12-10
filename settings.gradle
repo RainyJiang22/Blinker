@@ -17,9 +17,34 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
     }
+    versionCatalogs {
+        create('androidxLibs') {
+            // nav-plugin
+            library('asm', 'org.ow2.asm', 'asm').version('9.2')
+            library('asm-tree', 'org.ow2.asm', 'asm-tree').version('9.2')
+            library('commons-io', 'commons-io', 'commons-io').version('2.6')
+            library('kotlinpoet', 'com.squareup', 'kotlinpoet').version('1.2.0')
+            library('agp', 'com.android.tools.build', 'gradle').version('8.6.0')
+            bundle('nav-plugin',['asm','asm-tree','commons-io','kotlinpoet','agp'])
+
+            //fastjson
+            library('fastjson','com.alibaba','fastjson').version('1.2.59')
+        }
+        create('googleLibs') {
+            library('material', 'com.google.android', 'material').version('1.5.0')
+        }
+
+        /**
+         * 1、只需在app/build.gradle中alias(pluginLibs.plugins.hilt.android)即可
+         * 2、对于没有发布到gradlePluginPortal的插件，暂时沿用老的模式，即buildScript { dependencies{  classpath 'xxx.xxx.xxx:1.0.0'}}
+         * create('pluginLibs'){
+         *    plugin('hilt-android','com.google.dagger.hilt.android').version('2.41')
+         * }
+         */
+    }
 }
 
 rootProject.name = "Blinker"
 include ':app'
-include ':nav-plugin-runtime'
 include ':nav-plugin'
+include ':nav-plugin-runtime'

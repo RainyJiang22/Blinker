@@ -1,41 +1,39 @@
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
+    id 'java-library'
+    alias(libs.plugins.kotlin.jvm)
+    id 'com.gradle.plugin-publish'
 }
 
-android {
-    namespace 'com.blinker.video.plugin'
-    compileSdk 34
-
-    defaultConfig {
-        minSdk 27
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles "consumer-rules.pro"
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 dependencies {
-
-    implementation project(path: ':nav-plugin-runtime')
-    implementation libs.androidx.core.ktx
-    implementation libs.androidx.appcompat
-    implementation libs.material
-    testImplementation libs.junit
-    androidTestImplementation libs.androidx.junit
-    androidTestImplementation libs.androidx.espresso.core
+    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+    implementation gradleApi()
+    implementation androidxLibs.bundles.nav.plugin
 }
+//tasks.register("generateNavRegistry") {
+//    doLast {
+//        def navDatas = [
+//                [route: "home", className: "com.blinker.video.navigation.HomeFragment", type: "Fragment"],
+//                [route: "category", className: "com.blinker.video.navigation.CategoryFragment", type: "Fragment"]
+//        ].collect { navData ->
+//            NavData(navData.route, navData.className, NavDestination.NavType.valueOf(navData.type))
+//        }
+//
+//        def outputDir = file("${projectDir}/build/generated/source/navRegistry")
+//        outputDir.mkdirs()
+//
+//        com.blinker.video.plugin.NavRegistryGenerator.generate(outputDir, navDatas)
+//        println("NavRegistry generated at ${outputDir}")
+//    }
+//}
+//
+//// 确保在构建过程中调用生成任务
+//afterEvaluate {
+//    tasks.named("build").configure {
+//        dependsOn("generateNavRegistry")
+//    }
+//}

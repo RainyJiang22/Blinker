@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.button.MaterialButton xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/dp_20"
+    android:layout_marginLeft="@dimen/dp_16"
+    android:layout_marginBottom="@dimen/dp_6"
+    android:backgroundTint="@color/color_gray"
+    android:gravity="center"
+    android:insetTop="@dimen/dp_0"
+    android:insetBottom="@dimen/dp_0"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/dp_0"
+    android:paddingBottom="0dp"
+    android:stateListAnimator="@null"
+    android:textColor="@color/color_2f2"
+    android:textSize="@dimen/sp_10"
+    app:cornerRadius="@dimen/dp_10"
+    app:icon="@drawable/icon_tag"
+    app:iconGravity="textStart"
+    app:iconPadding="@dimen/dp_4"
+    app:iconSize="@dimen/dp_12"
+    app:iconTintMode="multiply"
+    tools:text="摸鱼的小王子">
+
+</com.google.android.material.button.MaterialButton>

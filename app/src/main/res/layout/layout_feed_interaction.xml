@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_45"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/dp_16"
+    android:paddingEnd="@dimen/dp_16">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/interaction_like"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:backgroundTint="@color/white"
+        android:padding="0dp"
+        android:stateListAnimator="@null"
+        android:textColor="@color/color_theme"
+        android:textSize="@dimen/sp_14"
+        app:icon="@drawable/icon_cell_like"
+        app:iconGravity="textStart"
+        app:iconPadding="@dimen/dp_4"
+        app:iconTint="@color/color_theme"
+        tools:text="1000" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/interaction_diss"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:backgroundTint="@color/white"
+        android:padding="0dp"
+        android:stateListAnimator="@null"
+        android:textColor="@color/color_theme"
+        android:textSize="@dimen/sp_14"
+        app:icon="@drawable/icon_cell_diss"
+        app:iconGravity="textStart"
+        app:iconPadding="@dimen/dp_4"
+        app:iconTint="@color/color_theme"
+        tools:text="1000" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/interaction_comment"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:backgroundTint="@color/white"
+        android:padding="0dp"
+        android:stateListAnimator="@null"
+        android:textColor="@color/color_3d3"
+        android:textSize="@dimen/sp_14"
+        app:icon="@drawable/icon_cell_comment"
+        app:iconGravity="textStart"
+        app:iconPadding="@dimen/dp_4"
+        app:iconTint="@color/color_3d3"
+        tools:text="1000" />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/interaction_share"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:backgroundTint="@color/white"
+        android:padding="0dp"
+        android:stateListAnimator="@null"
+        android:textColor="@color/color_3d3"
+        android:textSize="@dimen/sp_14"
+        app:icon="@drawable/icon_cell_share"
+        app:iconGravity="textStart"
+        app:iconPadding="@dimen/dp_4"
+        app:iconTint="@color/color_3d3"
+        tools:text="1000" />
+
+</LinearLayout>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/dp_16"
+    android:layout_marginRight="@dimen/dp_16"
+    android:background="@color/color_gray"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/dp_10"
+    android:paddingRight="@dimen/dp_10"
+    android:paddingBottom="@dimen/dp_10">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_60"
+        android:layout_gravity="right|top"
+        android:layout_marginRight="@dimen/dp_10"
+        android:src="@drawable/icon_god_comment2" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_10"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/comment_avatar"
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_20"
+                tools:src="@mipmap/ic_launcher_round" />
+
+            <TextView
+                android:id="@+id/comment_author"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dp_20"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:gravity="center"
+                android:textSize="@dimen/sp_12"
+                tools:text="摸鱼的小王子" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1px"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/comment_like_count"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textColor="@color/color_theme"
+                android:textSize="@dimen/sp_12"
+                android:textStyle="bold"
+                tools:text="6万" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/comment_like_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_2"
+                android:src="@drawable/icon_cell_like"
+                tools:src="@drawable/icon_cell_liked" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/comment_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_36"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textSize="@dimen/sp_14"
+            tools:text="摸鱼的小王子摸鱼的小王子" />
+
+
+        <FrameLayout
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_80"
+            android:layout_marginTop="@dimen/dp_10"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/comment_preview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/color_theme_10"
+                tools:src="@mipmap/ic_launcher_round" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/comment_preview_video_play"
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_20"
+                android:layout_gravity="center"
+                android:src="@drawable/icon_video_play" />
+        </FrameLayout>
+    </LinearLayout>
+</FrameLayout>

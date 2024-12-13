@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_white"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/dp_10">
+
+    <include layout="@layout/layout_feed_author" />
+
+    <include layout="@layout/layout_feed_text" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/feed_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:visibility="gone" />
+
+    <include layout="@layout/layout_feed_label" />
+
+    <include layout="@layout/layout_feed_top_comment" />
+
+    <include layout="@layout/layout_feed_interaction" />
+
+</LinearLayout>

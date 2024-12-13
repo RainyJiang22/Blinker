@@ -5,5 +5,8 @@ package com.blinker.video.plugin.runtime
  * @date 2024/12/9
  */
 data class NavData(
-    val route: String, val className: String, val type: NavDestination.NavType
+    val route: String,
+    val className: String,
+    val asStarter: Boolean,
+    val type: NavDestination.NavType
 )

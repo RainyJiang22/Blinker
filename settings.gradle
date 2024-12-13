@@ -26,9 +26,6 @@ dependencyResolutionManagement {
             library('kotlinpoet', 'com.squareup', 'kotlinpoet').version('1.2.0')
             library('agp', 'com.android.tools.build', 'gradle').version('8.6.0')
             bundle('nav-plugin',['asm','asm-tree','commons-io','kotlinpoet','agp'])
-
-            //fastjson
-            library('fastjson','com.alibaba','fastjson').version('1.2.59')
         }
         create('googleLibs') {
             library('material', 'com.google.android', 'material').version('1.5.0')

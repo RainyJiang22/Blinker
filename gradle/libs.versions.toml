@@ -1,5 +1,8 @@
 [versions]
+activityKtx = "1.8.2"
 agp = "8.6.0"
+fragmentKtx = "1.6.2"
+gson = "2.8.6"
 kotlin = "1.9.0"
 serialization = "2.0.21"
 coreKtx = "1.10.1"
@@ -9,13 +12,16 @@ espressoCore = "3.5.1"
 lifecycleRuntimeKtx = "2.6.1"
 activityCompose = "1.8.0"
 composeBom = "2024.04.01"
-navigation = "2.8.4"
+navigation = "2.5.3"
 appcompat = "1.6.1"
 material = "1.10.0"
 pluginPublish = "1.1.0"
 
 [libraries]
+androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activityKtx" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }

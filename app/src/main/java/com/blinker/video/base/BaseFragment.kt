@@ -1,4 +1,4 @@
-package com.blinker.video.navigation.base
+package com.blinker.video.base
 
 import android.os.Bundle
 import android.util.Log

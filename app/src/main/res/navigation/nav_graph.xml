@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/home_fragment"
-        android:name="com.blinker.video.navigation.HomeFragment">
+        android:name="com.blinker.video.ui.HomeFragment">
         <action
             android:id="@+id/navigate_to_category_fragment"
             app:destination="@+id/category_fragment" />
@@ -14,7 +14,7 @@
 
     <fragment
         android:id="@+id/category_fragment"
-        android:name="com.blinker.video.navigation.CategoryFragment">
+        android:name="com.blinker.video.ui.CategoryFragment">
 
         <action
             android:id="@+id/navigate_to_tags_fragment"
@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/tags_fragment"
-        android:name="com.blinker.video.navigation.TagsFragment">
+        android:name="com.blinker.video.ui.TagsFragment">
 
         <action
             android:id="@+id/navigate_to_tags_fragment"
@@ -33,7 +33,7 @@
 
     <fragment
         android:id="@+id/user_fragment"
-        android:name="com.blinker.video.navigation.UserFragment">
+        android:name="com.blinker.video.ui.UserFragment">
         <deepLink
             app:action="com.blinker.video.ACTION_USER"
             app:mimeType="type/video"

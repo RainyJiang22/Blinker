@@ -48,6 +48,7 @@ open abstract class NavClassVisitorFactory : AsmClassVisitorFactory<Instrumentat
                             val navData = NavData(
                                 route,
                                 classContext.currentClassData.className.replace("/", "."),
+                                false,
                                 type
                             )
                             synchronized(navDatas) { navDatas.add(navData) }

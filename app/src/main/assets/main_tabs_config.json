@@ -1,0 +1,42 @@
+{
+  "activeColor": "#EC6399",
+  "inActiveColor": "#666666",
+  "selectTab": 0,
+  "tabs": [
+    {
+      "size": 24,
+      "enable": true,
+      "index": 0,
+      "route": "home_fragment",
+      "title": "首页"
+    },
+    {
+      "size": 24,
+      "enable": true,
+      "index": 1,
+      "route": "category_fragment",
+      "title": "沙发"
+    },
+    {
+      "size": 43,
+      "enable": true,
+      "index": 2,
+      "route": "activity_publish",
+      "title": ""
+    },
+    {
+      "size": 24,
+      "enable": true,
+      "index": 3,
+      "route": "tags_fragment",
+      "title": "发现"
+    },
+    {
+      "size": 24,
+      "enable": true,
+      "index": 4,
+      "route": "user_fragment",
+      "title": "我的"
+    }
+  ]
+}

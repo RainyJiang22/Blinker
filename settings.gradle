@@ -19,13 +19,40 @@ dependencyResolutionManagement {
     }
     versionCatalogs {
         create('androidxLibs') {
+            // 别名 group artifact version
+            library('swiperefreshlayout','androidx.swiperefreshlayout','swiperefreshlayout').version('1.2.0-alpha01')
+            library('palette','androidx.palette','palette').version('1.0.0')
+            library('core-ktx', 'androidx.core', 'core-ktx').version('1.7.0')
+            library('appcompat', 'androidx.appcompat', 'appcompat').version('1.4.1')
+            library('constraintlayout', 'androidx.constraintlayout', 'constraintlayout').version('2.1.3')
+            library('material', 'com.google.android.material', 'material').version('1.5.0')
+            // navigation
+            library('navigation-fragment', 'androidx.navigation', 'navigation-fragment-ktx').version('2.5.3')
+            library('navigation-ui', 'androidx.navigation', 'navigation-ui-ktx').version('2.5.3')
+            // paging3
+            library('ktx-stdlib-common','org.jetbrains.kotlin','kotlin-stdlib-common').version('1.8.0')
+            library('paging-runtime', 'androidx.paging', 'paging-runtime').version('3.1.1')
+            // androidX通用依赖
+            bundle('androidx', ['swiperefreshlayout','palette','navigation-fragment', 'navigation-ui', 'core-ktx','ktx-stdlib-common', 'appcompat', 'constraintlayout','paging-runtime'])
+
+
             // nav-plugin
             library('asm', 'org.ow2.asm', 'asm').version('9.2')
             library('asm-tree', 'org.ow2.asm', 'asm-tree').version('9.2')
             library('commons-io', 'commons-io', 'commons-io').version('2.6')
+            library('commons-codec', 'commons-codec', 'commons-codec').version('1.11')
             library('kotlinpoet', 'com.squareup', 'kotlinpoet').version('1.2.0')
             library('agp', 'com.android.tools.build', 'gradle').version('8.6.0')
-            bundle('nav-plugin',['asm','asm-tree','commons-io','kotlinpoet','agp'])
+            bundle('nav-plugin',['asm','asm-tree','commons-io','kotlinpoet','agp','commons-codec'])
+
+            // retrofit + okHttp3
+            library('retrofit', 'com.squareup.retrofit2', 'retrofit').version('2.9.0')
+            library('converter-gson', 'com.squareup.retrofit2', 'converter-gson').version('2.9.0')
+            library('okhttp', 'com.squareup.okhttp3', 'okhttp').version('4.9.1')
+            library('logging', 'com.squareup.okhttp3', 'logging-interceptor').version('4.9.1')
+            // 网络库依赖
+            bundle('http', ['retrofit', 'converter-gson', 'okhttp', 'logging'])
+
         }
         create('googleLibs') {
             library('material', 'com.google.android', 'material').version('1.5.0')

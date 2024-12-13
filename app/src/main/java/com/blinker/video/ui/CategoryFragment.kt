@@ -28,16 +28,4 @@ class CategoryFragment : BaseFragment() {
         categoryBinding = LayoutFragmentCategoryBinding.inflate(inflater,container,false)
         return categoryBinding.root
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        categoryBinding.navigateToTagsFragment.setOnClickListener {
-            findNavController().navigate(R.id.tags_fragment)
-        }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString("outState","我是categoryFragment")
-    }
 }

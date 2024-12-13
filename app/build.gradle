@@ -74,4 +74,10 @@ dependencies {
     implementation libs.androidx.navigation.fragment
     implementation libs.androidx.navigation.ui
     implementation libs.gson
+
+    implementation androidxLibs.bundles.http
+    implementation libs.glide
+    annotationProcessor libs.github.compiler
+    implementation libs.glide.transformations
+
 }

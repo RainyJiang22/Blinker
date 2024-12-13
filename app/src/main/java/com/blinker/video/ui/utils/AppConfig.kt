@@ -1,7 +1,7 @@
 package com.blinker.video.ui.utils
 
 import android.content.Context
-import com.blinker.video.ui.navigation.BottomBar
+import com.blinker.video.model.BottomBar
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStream

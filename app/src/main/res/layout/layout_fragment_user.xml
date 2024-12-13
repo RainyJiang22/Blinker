@@ -4,23 +4,13 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <Button
-        android:id="@+id/navigate_back"
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/navigate_to_user_fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="返回上一页"
+        android:text="用户页"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-
-    <Button
-        android:id="@+id/navigate_up"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="返回根节点"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/navigate_back"/>
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

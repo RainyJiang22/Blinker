@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Blinker</string>
+    <string name="abs_list_header_footer_loading_text">努力加载中…</string>
+    <string name="abs_list_header_footer_retry_text">请点击重试</string>
 </resources>

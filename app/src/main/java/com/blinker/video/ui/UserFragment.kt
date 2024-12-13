@@ -26,24 +26,4 @@ class UserFragment : BaseFragment() {
         return userBinding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        userBinding.navigateBack.setOnClickListener {
-            findNavController().popBackStack(
-                R.id.tags_fragment,
-                inclusive = false,
-                saveState = true
-            )
-        }
-
-        userBinding.navigateUp.setOnClickListener {
-            findNavController().popBackStack(
-                R.id.home_fragment,
-                inclusive = false,
-                saveState = true
-            )
-        }
-    }
-
 }

@@ -9,7 +9,7 @@
     android:ellipsize="end"
     android:maxLines="3"
     android:orientation="vertical"
-    android:textColor="@color/color_2f2"
+    android:textColor="@color/color_000"
     android:textSize="@dimen/sp_16"
     tools:text="摸鱼的小王子摸鱼的小王子">
 

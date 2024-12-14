@@ -14,7 +14,7 @@
     android:paddingTop="@dimen/dp_0"
     android:paddingBottom="0dp"
     android:stateListAnimator="@null"
-    android:textColor="@color/color_2f2"
+    android:textColor="@color/color_3d3"
     android:textSize="@dimen/sp_10"
     app:cornerRadius="@dimen/dp_10"
     app:icon="@drawable/icon_tag"

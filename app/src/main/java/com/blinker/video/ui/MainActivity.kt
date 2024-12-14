@@ -5,11 +5,9 @@ import android.text.TextUtils
 import androidx.activity.enableEdgeToEdge
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
 import com.blinker.video.R
-import com.blinker.video.ui.navigation.AppBottomBar
+import com.blinker.video.ui.widget.AppBottomBar
 import com.blinker.video.ui.navigation.NavGraphBuilder
-import com.blinker.video.ui.theme.BlinkerTheme
 import com.blinker.video.ui.utils.AppConfig
 import com.blinker.video.ui.utils.switchTab
 
@@ -21,8 +19,8 @@ class MainActivity : FragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
         //enableEdgeToEdge()
+        setContentView(R.layout.activity_main)
         NavGraphBuilder.build(navController, this, R.id.fragment_container)
         val appBottomBar = findViewById<AppBottomBar>(R.id.app_bottom_bar)
         appBottomBar.setOnItemSelectedListener {

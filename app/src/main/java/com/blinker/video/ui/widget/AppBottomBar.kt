@@ -1,4 +1,4 @@
-package com.blinker.video.ui.navigation
+package com.blinker.video.ui.widget
 
 import android.annotation.SuppressLint
 import android.content.Context

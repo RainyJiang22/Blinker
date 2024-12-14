@@ -2,7 +2,6 @@ package com.blinker.video.ui
 
 import android.os.Bundle
 import android.text.TextUtils
-import androidx.activity.enableEdgeToEdge
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.fragment.NavHostFragment
 import com.blinker.video.R

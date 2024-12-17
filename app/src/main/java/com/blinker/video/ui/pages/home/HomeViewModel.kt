@@ -17,11 +17,17 @@ import com.blinker.video.model.Feed
  */
 class HomeViewModel : ViewModel() {
 
-    val hotFeeds = Pager(config = PagingConfig(pageSize = 10, initialLoadSize = 10, enablePlaceholders = false), pagingSourceFactory = {
-        HomePagingResource()
-    }).flow.cachedIn(viewModelScope)
+    val hotFeeds = Pager(
+        config = PagingConfig(
+            pageSize = 10,
+            initialLoadSize = 10,
+            enablePlaceholders = false,
+            prefetchDistance = 1
+        ), pagingSourceFactory = {
+            HomePagingResource()
+        }).flow.cachedIn(viewModelScope)
 
-    inner class HomePagingResource: PagingSource<Long,Feed>() {
+    inner class HomePagingResource : PagingSource<Long, Feed>() {
         override fun getRefreshKey(state: PagingState<Long, Feed>): Long? {
             return null
         }
@@ -34,7 +40,12 @@ class HomeViewModel : ViewModel() {
             if (apiResult.success && apiResult.body?.isNotEmpty() == true) {
                 return LoadResult.Page(apiResult.body!!, null, apiResult.body?.last()?.id)
             }
-            return LoadResult.Error(java.lang.RuntimeException("No more data to fetch"))
+
+            return if (params.key == null) {
+                LoadResult.Page(arrayListOf(), null, 0)
+            } else {
+                LoadResult.Error(java.lang.RuntimeException("No more data to fetch"))
+            }
         }
 
     }

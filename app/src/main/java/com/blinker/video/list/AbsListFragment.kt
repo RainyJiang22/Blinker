@@ -67,7 +67,11 @@ open class AbsListFragment : Fragment(R.layout.layout_abs_list_fragment) {
                 val hasData = feedAdapter.itemCount > 0
                 viewBinding.refreshLayout.isRefreshing = false
                 viewBinding.loadingStatus.setVisibility(!hasData)
-                viewBinding.listView.setVisibility(hasData)
+                if(!hasData) {
+                    viewBinding.loadingStatus.showEmpty {
+                        feedAdapter.retry()
+                    }
+                }
             }
 
             // 监听Paging的加载状态，如果refresh 动作也就是首次加载是失败，且列表上没有任何item

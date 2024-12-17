@@ -76,6 +76,7 @@ dependencies {
     implementation libs.gson
 
     implementation androidxLibs.bundles.http
+    implementation androidxLibs.bundles.androidx
     implementation libs.glide
     annotationProcessor libs.github.compiler
     implementation libs.glide.transformations

@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.annotation.DrawableRes
 import com.blinker.video.databinding.LayoutLoadingStatusViewBinding
@@ -18,29 +19,25 @@ import com.blinker.video.databinding.LayoutLoadingStatusViewBinding
  */
 class LoadingStatusView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : LinearLayout(context, attrs, defStyleAttr) {
+) : FrameLayout(context, attrs, defStyleAttr) {
 
     private val binding =
-        LayoutLoadingStatusViewBinding.inflate(LayoutInflater.from(context), this, true)
+        LayoutLoadingStatusViewBinding.inflate(LayoutInflater.from(context), this)
 
     init {
-        orientation = VERTICAL
-        gravity = Gravity.CENTER
         binding.loading.show()
     }
 
     @SuppressLint("ResourceType")
-    fun showEmpty(@DrawableRes iconRes: Int, text: String, retry: OnClickListener?) {
+    fun showEmpty(@DrawableRes iconRes: Int = 0, text: String?= null, retry: OnClickListener?) {
         binding.loading.hide()
         binding.emptyLayout.visibility = View.VISIBLE
         if (iconRes > 0) {
             binding.emptyIcon.setImageResource(iconRes)
         }
-        if (TextUtils.isEmpty(text)) {
+        if (TextUtils.isEmpty(text).not()) {
             binding.emptyText.text = text
             binding.emptyText.visibility = View.VISIBLE
-        } else {
-            binding.emptyText.visibility = View.GONE
         }
 
         retry?.let {

@@ -26,7 +26,11 @@ class GsonResponseBodyConverter<T> constructor(private val gson: Gson, private v
                 val data2: String? = data1.optString("data")
                 if (data2 != null) {
                     val argumentType = type.actualTypeArguments[0]
-                    apiResult.body = gson.fromJson(data2, argumentType)
+                    kotlin.runCatching {
+                        apiResult.body = gson.fromJson(data2, argumentType)
+                    }.onFailure {
+                        it.printStackTrace()
+                    }
                 }
             }
             return apiResult

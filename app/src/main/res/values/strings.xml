@@ -4,4 +4,6 @@
     <string name="abs_list_header_footer_retry_text">请点击重试</string>
     <string name="loading_status_empty_no_data">虽然什么也没有,要不下拉刷新试试</string>
     <string name="loading_status_empty_no_data_action">朕知道了</string>
+    <string name="abs_list_loading_footer_loading">努力加载中…</string>
+    <string name="abs_list_loading_footer_error">已经没有更多了</string>
 </resources>

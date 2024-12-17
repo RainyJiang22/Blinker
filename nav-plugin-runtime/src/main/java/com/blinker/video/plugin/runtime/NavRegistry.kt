@@ -12,7 +12,7 @@ object NavRegistry {
         navList.add(
             NavData(
                 "home_fragment",
-                "com.blinker.video.ui.HomeFragment",
+                "com.blinker.video.ui.pages.home.HomeFragment",
                 true,
                 NavDestination.NavType.Fragment
             )

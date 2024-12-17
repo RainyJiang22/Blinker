@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/home_fragment"
-        android:name="com.blinker.video.ui.HomeFragment">
+        android:name="com.blinker.video.ui.pages.home.HomeFragment">
         <action
             android:id="@+id/navigate_to_category_fragment"
             app:destination="@+id/category_fragment" />

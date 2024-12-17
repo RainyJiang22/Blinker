@@ -20,12 +20,7 @@ object ApiService {
     private val retrofit = Retrofit.Builder()
         .baseUrl("http://8.136.122.222/jetpack/")
         .client(okhttpClient)
-        .addConverterFactory(
-            GsonConverterFactory.create(
-                GsonBuilder()
-                    .create()
-            )
-        )
+        .addConverterFactory(GsonConvertFactory())
         .build()
 
     fun getService(): IApiInterface {

@@ -20,7 +20,7 @@ object NavRegistry {
         navList.add(
             NavData(
                 "category_fragment",
-                "com.blinker.video.ui.CategoryFragment",
+                "com.blinker.video.ui.pages.category.CategoryFragment",
                 false,
                 NavDestination.NavType.Fragment
             )
@@ -28,7 +28,7 @@ object NavRegistry {
         navList.add(
             NavData(
                 "tags_fragment",
-                "com.blinker.video.ui.TagsFragment",
+                "com.blinker.video.ui.pages.tags.TagsFragment",
                 false,
                 NavDestination.NavType.Fragment
             )
@@ -36,7 +36,7 @@ object NavRegistry {
         navList.add(
             NavData(
                 "user_fragment",
-                "com.blinker.video.ui.UserFragment",
+                "com.blinker.video.ui.pages.user.UserFragment",
                 false,
                 NavDestination.NavType.Fragment
             )

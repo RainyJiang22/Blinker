@@ -1,4 +1,4 @@
-package com.blinker.video.ui
+package com.blinker.video.ui.pages
 
 import android.os.Bundle
 import android.text.TextUtils

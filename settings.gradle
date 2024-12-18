@@ -35,6 +35,10 @@ dependencyResolutionManagement {
             // androidX通用依赖
             bundle('androidx', ['swiperefreshlayout','palette','navigation-fragment', 'navigation-ui', 'core-ktx','ktx-stdlib-common', 'appcompat', 'constraintlayout','paging-runtime'])
 
+            // exoplayer
+            library('exoplayer-core','com.google.android.exoplayer','exoplayer-core').version('2.18.5')
+            library('exoplayer-ui','com.google.android.exoplayer','exoplayer-ui').version('2.18.5')
+            bundle('exoplayer', ['exoplayer-core', 'exoplayer-ui'])
 
             // nav-plugin
             library('asm', 'org.ow2.asm', 'asm').version('9.2')

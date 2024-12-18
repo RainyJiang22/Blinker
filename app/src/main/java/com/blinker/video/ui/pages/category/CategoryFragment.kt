@@ -1,11 +1,9 @@
-package com.blinker.video.ui
+package com.blinker.video.ui.pages.category
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
-import com.blinker.video.R
 import com.blinker.video.databinding.LayoutFragmentCategoryBinding
 import com.blinker.video.base.BaseFragment
 import com.blinker.video.plugin.runtime.NavDestination
@@ -18,7 +16,6 @@ import com.blinker.video.plugin.runtime.NavDestination
 class CategoryFragment : BaseFragment() {
 
     private lateinit var categoryBinding: LayoutFragmentCategoryBinding
-
 
     override fun onCreateView(
         inflater: LayoutInflater,

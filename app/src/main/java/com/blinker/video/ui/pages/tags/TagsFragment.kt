@@ -1,13 +1,7 @@
-package com.blinker.video.ui
+package com.blinker.video.ui.pages.tags
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
-import com.blinker.video.R
-import com.blinker.video.databinding.LayoutFragmentTagsBinding
 import com.blinker.video.base.BaseFragment
 import com.blinker.video.plugin.runtime.NavDestination
 

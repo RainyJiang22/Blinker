@@ -77,6 +77,7 @@ dependencies {
 
     implementation androidxLibs.bundles.http
     implementation androidxLibs.bundles.androidx
+    implementation androidxLibs.bundles.exoplayer
     implementation libs.glide
     annotationProcessor libs.github.compiler
     implementation libs.glide.transformations

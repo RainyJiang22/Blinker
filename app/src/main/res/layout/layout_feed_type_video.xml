@@ -14,7 +14,7 @@
         android:id="@+id/feed_text"
         layout="@layout/layout_feed_text" />
 
-    <FrameLayout
+    <com.blinker.video.exoplayer.WrapperPlayerView
         android:id="@+id/feed_video"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

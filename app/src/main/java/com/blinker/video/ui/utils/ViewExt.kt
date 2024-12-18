@@ -3,6 +3,7 @@ package com.blinker.video.ui.utils
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.text.TextUtils
 import android.view.View
 import android.widget.ImageView
@@ -11,8 +12,10 @@ import com.blinker.video.R
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.target.BitmapImageViewTarget
+import com.bumptech.glide.request.target.DrawableImageViewTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.button.MaterialButton
+import jp.wasabeef.glide.transformations.BlurTransformation
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 
 /**
@@ -27,7 +30,7 @@ fun TextView.setTextColor(condition: Boolean, trueRes: Int, falseRes: Int) {
     this.setTextColor(context.getColor(if (condition) trueRes else falseRes))
 }
 
-fun TextView.setTextVisibility(content:String?,goneWhenNull: Boolean = true) {
+fun TextView.setTextVisibility(content: String?, goneWhenNull: Boolean = true) {
     if (TextUtils.isEmpty(content) && goneWhenNull) {
         visibility = View.GONE
         return
@@ -44,7 +47,7 @@ fun MaterialButton.setMaterialButton(
     content: String?,
     condition: Boolean,
     trueRes: Int,
-    falseRes: Int
+    falseRes: Int,
 ) {
     if (!TextUtils.isEmpty(content)) {
         text = content
@@ -83,4 +86,15 @@ fun ImageView.load(imageUrl: String, callback: (Bitmap) -> Unit) {
             callback(resource)
         }
     })
+}
+
+fun ImageView.setBlurImageUrl(blurUrl: String, radius: Int) {
+    Glide.with(this).load(blurUrl)
+        .override(radius)
+        .transform(BlurTransformation()).dontAnimate().into(object : DrawableImageViewTarget(this) {
+            override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                super.onResourceReady(resource, transition)
+                background = resource
+            }
+        })
 }

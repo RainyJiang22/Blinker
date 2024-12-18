@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.coroutineScope
 import androidx.paging.PagingDataAdapter
 import androidx.palette.graphics.Palette
@@ -21,6 +22,8 @@ import com.blinker.video.databinding.LayoutFeedInteractionBinding
 import com.blinker.video.databinding.LayoutFeedLabelBinding
 import com.blinker.video.databinding.LayoutFeedTextBinding
 import com.blinker.video.databinding.LayoutFeedTopCommentBinding
+import com.blinker.video.exoplayer.PagePlayDetector
+import com.blinker.video.exoplayer.WrapperPlayerView
 import com.blinker.video.model.Author
 import com.blinker.video.model.Feed
 import com.blinker.video.model.TYPE_IMAGE_TEXT
@@ -43,16 +46,20 @@ import kotlinx.coroutines.withContext
  * @author jiangshiyu
  * @date 2024/12/17
  */
-class FeedAdapter constructor(private val lifecycle: Lifecycle) :
-    PagingDataAdapter<Feed, FeedAdapter.FeedViewHolder>(object : DiffUtil.ItemCallback<Feed>() {
-        override fun areItemsTheSame(oldItem: Feed, newItem: Feed): Boolean {
-            return oldItem.itemId == newItem.itemId
-        }
+class FeedAdapter constructor(
+    private val pageName: String,
+    private val lifecycleOwner: LifecycleOwner
+) : PagingDataAdapter<Feed, FeedAdapter.FeedViewHolder>(object : DiffUtil.ItemCallback<Feed>() {
+    override fun areItemsTheSame(oldItem: Feed, newItem: Feed): Boolean {
+        return oldItem.itemId == newItem.itemId
+    }
 
-        override fun areContentsTheSame(oldItem: Feed, newItem: Feed): Boolean {
-            return oldItem == newItem
-        }
-    }) {
+    override fun areContentsTheSame(oldItem: Feed, newItem: Feed): Boolean {
+        return oldItem == newItem
+    }
+}) {
+
+    private lateinit var playDetector: PagePlayDetector
 
     override fun getItemViewType(position: Int): Int {
         val feedItem = getItem(position) ?: return 0
@@ -63,7 +70,22 @@ class FeedAdapter constructor(private val lifecycle: Lifecycle) :
         val feedItem = getItem(position) ?: return
         holder.bindAuthor(feedItem.author)
         holder.bindFeedContent(feedItem.feedsText)
-        holder.bindFeedImage(feedItem.width, feedItem.height, PixUtil.dp2px(300), feedItem.cover)
+        if (!holder.isVideo()) {
+            holder.bindFeedImage(
+                feedItem.width,
+                feedItem.height,
+                PixUtil.dp2px(300),
+                feedItem.cover
+            )
+        } else {
+            holder.bindVideoData(
+                feedItem.width,
+                feedItem.height,
+                PixUtil.dp2px(300),
+                feedItem.cover,
+                feedItem.url
+            )
+        }
         holder.bindLabel(feedItem.activityText)
         holder.bindTopComment(feedItem.topComment)
         holder.bindInteraction(feedItem.ugc)
@@ -78,11 +100,11 @@ class FeedAdapter constructor(private val lifecycle: Lifecycle) :
         val layoutResId =
             if (viewType == TYPE_IMAGE_TEXT) R.layout.layout_feed_type_image else R.layout.layout_feed_type_video
         return FeedViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.layout_feed_type_image, parent, false)
+            LayoutInflater.from(parent.context).inflate(layoutResId, parent, false)
         )
     }
 
-    inner class FeedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class FeedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),PagePlayDetector.IPlayDetector {
         private val authorBinding =
             LayoutFeedAuthorBinding.bind(itemView.findViewById(R.id.feed_author))
         private val feedTextBinding =
@@ -94,6 +116,8 @@ class FeedAdapter constructor(private val lifecycle: Lifecycle) :
             LayoutFeedTopCommentBinding.bind(itemView.findViewById(R.id.feed_comment))
         private val interactionBinding =
             LayoutFeedInteractionBinding.bind(itemView.findViewById(R.id.feed_interaction))
+        private val playerView: WrapperPlayerView? = itemView.findViewById(R.id.feed_video)
+
 
         fun bindAuthor(author: Author?) {
             author?.run {
@@ -118,11 +142,11 @@ class FeedAdapter constructor(private val lifecycle: Lifecycle) :
                     setFeedImageSize(it.width, it.height, maxHeight)
                 }
                 if (feedItem.backgroundColor == 0) {
-                    lifecycle.coroutineScope.launch(Dispatchers.IO) {
+                    lifecycleOwner.lifecycle.coroutineScope.launch(Dispatchers.IO) {
                         val defaultColor = feedImage.context.getColor(R.color.color_theme_10)
                         val color = Palette.Builder(it).generate().getMutedColor(defaultColor)
                         feedItem.backgroundColor = color
-                        withContext(lifecycle.coroutineScope.coroutineContext) {
+                        withContext(lifecycleOwner.lifecycle.coroutineScope.coroutineContext) {
                             feedImage.background = ColorDrawable(feedItem.backgroundColor)
                         }
                     }
@@ -164,7 +188,11 @@ class FeedAdapter constructor(private val lifecycle: Lifecycle) :
                 commentBinding.commentText.setTextVisibility(commentText)
                 commentBinding.commentLikeCount.setTextVisibility(commentCount.toString())
                 commentBinding.commentPreviewVideoPlay.setVisibility(videoUrl != null)
-                commentBinding.commentLikeCount.setTextColor(hasLiked, R.color.color_theme, R.color.color_3d3)
+                commentBinding.commentLikeCount.setTextColor(
+                    hasLiked,
+                    R.color.color_theme,
+                    R.color.color_3d3
+                )
                 commentBinding.commentLikeStatus.setImageResource(
                     hasLiked,
                     R.drawable.icon_cell_liked,
@@ -189,5 +217,48 @@ class FeedAdapter constructor(private val lifecycle: Lifecycle) :
                 interactionBinding.interactionShare.text = shareCount.toString()
             }
         }
+
+        fun bindVideoData(width: Int, height: Int, maxHeight: Int, cover: String?, url: String?) {
+            url?.run {
+                playerView?.run {
+                    setVisibility(true)
+                    bindData(width, height, cover, url, maxHeight)
+                    setListener(object : WrapperPlayerView.Listener {
+                        override fun onTogglePlay(attachView: WrapperPlayerView) {
+                            playDetector.togglePlay(attachView, url)
+                        }
+                    })
+                }
+            }
+        }
+
+        override fun getAttachView(): WrapperPlayerView {
+            return playerView!!
+        }
+
+        override fun getVideoUrl(): String {
+            return getItem(layoutPosition)?.url!!
+        }
+
+        fun isVideo(): Boolean {
+            return getItem(layoutPosition)?.itemType == TYPE_VIDEO
+        }
+    }
+
+    override fun onViewAttachedToWindow(holder: FeedViewHolder) {
+        super.onViewAttachedToWindow(holder)
+        if (holder.isVideo()) {
+            playDetector.addDetector(holder)
+        }
+    }
+
+    override fun onViewDetachedFromWindow(holder: FeedViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        playDetector.removeDetector(holder)
+    }
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        playDetector = PagePlayDetector(pageName, lifecycleOwner, recyclerView)
     }
 }

@@ -49,7 +49,7 @@ open class AbsListFragment : Fragment(R.layout.layout_abs_list_fragment) {
                 LinearLayoutManager.VERTICAL
             )
         )
-        feedAdapter = FeedAdapter(lifecycle)
+        feedAdapter = FeedAdapter(getFeedType(), lifecycleOwner = viewLifecycleOwner)
         val contactAdapter = feedAdapter.withLoadStateFooter(FooterLodStateAdapter())
         viewBinding.listView.adapter = contactAdapter
         viewBinding.listView.layoutManager =
@@ -84,6 +84,10 @@ open class AbsListFragment : Fragment(R.layout.layout_abs_list_fragment) {
                 }
             }
         }
+    }
+
+    fun getFeedType(): String {
+        return "all"
     }
 
     fun submitData(pagingData: PagingData<Feed>) {

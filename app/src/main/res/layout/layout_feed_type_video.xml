@@ -6,9 +6,13 @@
     android:orientation="vertical"
     android:paddingTop="@dimen/dp_10">
 
-    <include layout="@layout/layout_feed_author"/>
+    <include
+        android:id="@+id/feed_author"
+        layout="@layout/layout_feed_author"/>
 
-    <include layout="@layout/layout_feed_text" />
+    <include
+        android:id="@+id/feed_text"
+        layout="@layout/layout_feed_text" />
 
     <FrameLayout
         android:id="@+id/feed_video"
@@ -17,11 +21,17 @@
         android:layout_marginBottom="@dimen/dp_10"
         android:visibility="gone" />
 
-    <include layout="@layout/layout_feed_label" />
+    <include
+        android:id="@+id/feed_label"
+        layout="@layout/layout_feed_label" />
 
-    <include layout="@layout/layout_feed_top_comment" />
+    <include
+        android:id="@+id/feed_comment"
+        layout="@layout/layout_feed_top_comment" />
 
-    <include layout="@layout/layout_feed_interaction" />
+    <include
+        android:id="@+id/feed_interaction"
+        layout="@layout/layout_feed_interaction" />
 
 
 </LinearLayout>

@@ -6,4 +6,8 @@
     <string name="loading_status_empty_no_data_action">朕知道了</string>
     <string name="abs_list_loading_footer_loading">努力加载中…</string>
     <string name="abs_list_loading_footer_error">已经没有更多了</string>
+    <string name="abs_list_interaction_like_text">点赞</string>
+    <string name="abs_list_interaction_diss_text">踩</string>
+    <string name="abs_list_interaction_comment_text">评论</string>
+    <string name="abs_list_interaction_share_text">分享</string>
 </resources>

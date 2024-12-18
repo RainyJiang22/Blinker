@@ -29,7 +29,9 @@ data class Feed(
     val ugc: Ugc?,
     val url: String?,
     val width: Int
-)
+) {
+    var backgroundColor: Int = 0
+}
 
 @Keep
 data class Author(
@@ -48,7 +50,7 @@ data class Author(
     val qqOpenId: String,
     val score: Int,
     val topCount: Int,
-    val userId: Long
+    val userId: Long,
 )
 
 @Keep
@@ -68,7 +70,7 @@ data class TopComment(
     val likeCount: Int,
     val userId: Long,
     val videoUrl: String?,
-    val width: Int
+    val width: Int,
 )
 
 @Keep
@@ -78,5 +80,5 @@ data class Ugc(
     val hasLiked: Boolean,
     val hasdiss: Boolean,
     val likeCount: Int,
-    val shareCount: Int
+    val shareCount: Int,
 )

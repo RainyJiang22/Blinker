@@ -29,7 +29,7 @@ class AppBottomBar @JvmOverloads constructor(
         R.drawable.icon_tab_user
     )
     init {
-        val config = AppConfig.getBottomConfig(context)
+        val config = AppConfig.getBottomConfig()
 
         val states = arrayOfNulls<IntArray>(2)
         states[0] = IntArray(1) { android.R.attr.state_selected }

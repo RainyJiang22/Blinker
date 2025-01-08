@@ -2,6 +2,7 @@ package com.blinker.video.ui.pages
 
 import android.os.Bundle
 import android.text.TextUtils
+import androidx.activity.enableEdgeToEdge
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.fragment.NavHostFragment
 import com.blinker.video.R
@@ -23,7 +24,7 @@ class MainActivity : FragmentActivity() {
         NavGraphBuilder.build(navController, this, R.id.fragment_container)
         val appBottomBar = findViewById<AppBottomBar>(R.id.app_bottom_bar)
         appBottomBar.setOnItemSelectedListener {
-            val tab = AppConfig.getBottomConfig(this).tabs[it.order]
+            val tab = AppConfig.getBottomConfig().tabs[it.order]
             navController.switchTab(tab.route!!)
             !TextUtils.isEmpty(it.title)
         }

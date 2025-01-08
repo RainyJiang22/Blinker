@@ -32,8 +32,10 @@ dependencyResolutionManagement {
             // paging3
             library('ktx-stdlib-common','org.jetbrains.kotlin','kotlin-stdlib-common').version('1.8.0')
             library('paging-runtime', 'androidx.paging', 'paging-runtime').version('3.1.1')
+            // viewpager2
+            library('viewpager2', 'androidx.viewpager2', 'viewpager2').version('1.0.0')
             // androidX通用依赖
-            bundle('androidx', ['swiperefreshlayout','palette','navigation-fragment', 'navigation-ui', 'core-ktx','ktx-stdlib-common', 'appcompat', 'constraintlayout','paging-runtime'])
+            bundle('androidx', ['viewpager2','swiperefreshlayout','palette','navigation-fragment', 'navigation-ui', 'core-ktx','ktx-stdlib-common', 'appcompat', 'constraintlayout','paging-runtime'])
 
             // exoplayer
             library('exoplayer-core','com.google.android.exoplayer','exoplayer-core').version('2.18.5')

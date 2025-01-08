@@ -27,6 +27,11 @@ class HomeViewModel : ViewModel() {
             HomePagingResource()
         }).flow.cachedIn(viewModelScope)
 
+    private var feedType: String = "all"
+    fun setFeedType(feedType: String) {
+        this.feedType = feedType
+    }
+
     inner class HomePagingResource : PagingSource<Long, Feed>() {
         override fun getRefreshKey(state: PagingState<Long, Feed>): Long? {
             return null
@@ -34,7 +39,7 @@ class HomeViewModel : ViewModel() {
 
         override suspend fun load(params: LoadParams<Long>): LoadResult<Long, Feed> {
             val result = kotlin.runCatching {
-                ApiService.getService().getFeeds(feedId = params.key ?: 0L)
+                ApiService.getService().getFeeds(feedId = params.key ?: 0L, feedType = feedType)
             }
             val apiResult = result.getOrDefault(ApiResult())
             if (apiResult.success && apiResult.body?.isNotEmpty() == true) {

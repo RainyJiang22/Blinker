@@ -8,6 +8,7 @@ import androidx.annotation.Keep
  * @date 2024/12/13
  */
 
+const val TYPE_TEXT = 0 //纯文本类型贴纸
 const val TYPE_IMAGE_TEXT = 1 //图文类型帖子
 const val TYPE_VIDEO = 2//视频类型帖子
 

@@ -26,6 +26,10 @@ open class AbsListFragment : Fragment(R.layout.layout_abs_list_fragment) {
     private val viewBinding: LayoutAbsListFragmentBinding by invokeViewBinding()
     private lateinit var feedAdapter: FeedAdapter
 
+    companion object {
+        const val EXT_FEED_TYPE = "feedType"
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -87,7 +91,7 @@ open class AbsListFragment : Fragment(R.layout.layout_abs_list_fragment) {
     }
 
     fun getFeedType(): String {
-        return "all"
+        return arguments?.getString(EXT_FEED_TYPE) ?: "all"
     }
 
     fun submitData(pagingData: PagingData<Feed>) {

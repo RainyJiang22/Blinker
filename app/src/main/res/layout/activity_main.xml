@@ -5,6 +5,7 @@
     android:clipChildren="false"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container"
         android:name="androidx.navigation.fragment.NavHostFragment"

@@ -34,7 +34,7 @@ class FooterLodStateAdapter : LoadStateAdapter<FooterLodStateAdapter.LoadStateVi
             else -> {}
         }
         loading.hide()
-        loading.postOnAnimation { loading.visibility = View. GONE }
+        loading.postOnAnimation { loading.visibility = View.GONE }
     }
 
     override fun onCreateViewHolder(

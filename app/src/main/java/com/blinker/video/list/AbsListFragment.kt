@@ -70,6 +70,7 @@ open class AbsListFragment : Fragment(R.layout.layout_abs_list_fragment) {
             feedAdapter.onPagesUpdatedFlow.collect {
                 val hasData = feedAdapter.itemCount > 0
                 viewBinding.refreshLayout.isRefreshing = false
+                viewBinding.listView.setVisibility(hasData)
                 viewBinding.loadingStatus.setVisibility(!hasData)
                 if(!hasData) {
                     viewBinding.loadingStatus.showEmpty {
@@ -78,15 +79,15 @@ open class AbsListFragment : Fragment(R.layout.layout_abs_list_fragment) {
                 }
             }
 
-            // 监听Paging的加载状态，如果refresh 动作也就是首次加载是失败，且列表上没有任何item
-            // 此时显示出空布局
-            feedAdapter.loadStateFlow.collect {
-                if (it.source.refresh is LoadState.Error && feedAdapter.itemCount <= 0) {
-                    viewBinding.loadingStatus.showEmpty {
-                        feedAdapter.retry()
-                    }
-                }
-            }
+//            // 监听Paging的加载状态，如果refresh 动作也就是首次加载是失败，且列表上没有任何item
+//            // 此时显示出空布局
+//            feedAdapter.loadStateFlow.collect {
+//                if (it.source.refresh is LoadState.Error && feedAdapter.itemCount <= 0) {
+//                    viewBinding.loadingStatus.showEmpty {
+//                        feedAdapter.retry()
+//                    }
+//                }
+//            }
         }
     }
 

@@ -104,7 +104,7 @@ class CategoryFragment : BaseFragment() {
         val stateList = ColorStateList(states, colors)
         tabView.setTextColor(stateList)
         tabView.gravity = Gravity.CENTER
-        tabView.text = categoryConfig.tabs!![position].title
+        tabView.text = categoryConfig.tabs?.get(position)?.title
         tabView.textSize = categoryConfig.normalSize.toFloat()
 
         return tabView

@@ -10,4 +10,6 @@
     <string name="abs_list_interaction_diss_text">踩</string>
     <string name="abs_list_interaction_comment_text">评论</string>
     <string name="abs_list_interaction_share_text">分享</string>
+
+    <string name="login_text">QQ快捷登录</string>
 </resources>

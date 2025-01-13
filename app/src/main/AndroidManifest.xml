@@ -4,6 +4,10 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
+    <!--android 9及以上 需要授权特定包名，才可以通过getQueryIntent查询应用是否已安装-->
+    <queries>
+        <package android:name="com.tencent.mobileqq" />
+    </queries>
 
     <application
         android:allowBackup="true"
@@ -16,6 +20,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.APP"
         tools:targetApi="31">
+
+        <!-- 这是是QQ快捷登录SDK 里面包含但没用的apache的类，需要在这里通过uses-library -->
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
+
         <activity
             android:name=".ui.pages.MainActivity"
             android:exported="true"
@@ -26,6 +37,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tencent102047280" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
     </application>
 
 </manifest>

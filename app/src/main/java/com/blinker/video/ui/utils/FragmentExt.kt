@@ -1,6 +1,7 @@
 package com.blinker.video.ui.utils
 
 import android.view.LayoutInflater
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -19,18 +20,36 @@ inline fun <reified VB : ViewBinding> invokeViewBinding() =
 
 
 class FragmentInflateBindingProperty<VB : ViewBinding>(private val clazz: Class<VB>) :
-    ReadOnlyProperty<Fragment, VB> {
+    ReadOnlyProperty<Any, VB> {
     private var binding: VB? = null
-    override fun getValue(thisRef: Fragment, property: KProperty<*>): VB {
+    override fun getValue(thisRef: Any, property: KProperty<*>): VB {
+        val layoutInflater: LayoutInflater?
+        val viewLifecycleOwner: LifecycleOwner?
+        when (thisRef) {
+            is AppCompatActivity -> {
+                layoutInflater = thisRef.layoutInflater
+                viewLifecycleOwner = thisRef
+            }
+
+            is Fragment -> {
+                layoutInflater = thisRef.layoutInflater
+                viewLifecycleOwner = thisRef.viewLifecycleOwner
+            }
+
+            else -> {
+                throw java.lang.IllegalStateException("invokeViewBinding can only be used in AppCompatActivity or Fragment")
+            }
+        }
+
         if (binding == null) {
             try {
                 binding = (clazz.getMethod("inflate", LayoutInflater::class.java)
-                    .invoke(null, thisRef.layoutInflater) as VB)
+                    .invoke(null, layoutInflater) as VB)
             } catch (e: java.lang.IllegalStateException) {
                 e.printStackTrace()
                 throw e
             }
-            thisRef.viewLifecycleOwner.lifecycle.addObserver(object : DefaultLifecycleObserver {
+            viewLifecycleOwner.lifecycle.addObserver(object : DefaultLifecycleObserver {
                 override fun onDestroy(owner: LifecycleOwner) {
                     super.onDestroy(owner)
                     binding = null

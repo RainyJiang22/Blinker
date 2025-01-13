@@ -60,8 +60,6 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
-
-
 }
 
 dependencies {
@@ -97,5 +95,19 @@ dependencies {
     implementation libs.glide
     annotationProcessor libs.github.compiler
     implementation libs.glide.transformations
+
+
+
+    // qq-open-sdk
+    implementation androidxLibs.qqopensdk
+
+    // camerax
+    implementation androidxLibs.bundles.camerax
+
+    // gesture view
+    implementation androidxLibs.photoView
+
+    // oss-sdk
+    implementation androidxLibs.osssdk
 
 }

@@ -21,7 +21,7 @@ class GsonConvertFactory: Converter.Factory() {
         type: Type,
         annotations: Array<out Annotation>,
         retrofit: Retrofit
-    ): Converter<ResponseBody, *>? {
+    ): Converter<ResponseBody, *> {
         return GsonResponseBodyConverter<Any>(gson,type)
     }
 

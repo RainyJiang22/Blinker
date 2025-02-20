@@ -5,6 +5,7 @@ import com.google.gson.TypeAdapter
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import okio.Buffer
 import retrofit2.Converter
 import java.io.OutputStreamWriter
@@ -25,7 +26,7 @@ class GsonRequestBodyConverter<T>(
         val jsonWriter = gson.newJsonWriter(writer)
         adapter.write(jsonWriter, value)
         jsonWriter.close()
-        return RequestBody.create(MEDIA_TYPE, buffer.readByteString())
+        return buffer.readByteString().toRequestBody(MEDIA_TYPE)
     }
 
     companion object {

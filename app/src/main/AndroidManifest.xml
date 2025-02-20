@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES"/>
 
     <!--android 9及以上 需要授权特定包名，才可以通过getQueryIntent查询应用是否已安装-->
     <queries>
@@ -58,6 +59,10 @@
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <activity
+            android:name=".ui.pages.login.LoginActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

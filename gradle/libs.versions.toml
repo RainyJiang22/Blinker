@@ -1,6 +1,7 @@
 [versions]
 activityKtx = "1.8.2"
 agp = "8.6.0"
+blankjUtilcode = "1.30.7"
 fragmentKtx = "1.6.2"
 glide = "4.15.0"
 glideTransformations = "4.3.0"
@@ -23,6 +24,7 @@ pluginPublish = "1.1.0"
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activityKtx" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
+com-blankj-utilcode = { module = "com.blankj:utilcode", version.ref = "blankjUtilcode" }
 github-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 glide-transformations = { module = "jp.wasabeef:glide-transformations", version.ref = "glideTransformations" }

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.blinker.video.databinding.LayoutFragmentUserBinding
 import com.blinker.video.base.BaseFragment
 import com.blinker.video.plugin.runtime.NavDestination
+import com.blinker.video.ui.pages.login.UserManager
 
 /**
  * @author jiangshiyu
@@ -22,6 +23,15 @@ class UserFragment : BaseFragment() {
     ): View {
         userBinding = LayoutFragmentUserBinding.inflate(inflater, container, false)
         return userBinding.root
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        userBinding.navigateToUserFragment.setOnClickListener {
+            UserManager.startLogin()
+        }
     }
 
 }

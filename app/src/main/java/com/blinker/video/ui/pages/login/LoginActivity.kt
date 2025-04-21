@@ -2,6 +2,7 @@ package com.blinker.video.ui.pages.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -16,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
+import java.util.logging.Logger
 
 /**
  * @author jiangshiyu
@@ -33,7 +35,7 @@ class LoginActivity : AppCompatActivity() {
 
         viewBinding.actionLogin.setOnClickListener { login() }
 
-        tencent = Tencent.createInstance("102047280", applicationContext)
+        tencent = Tencent.createInstance("1108832891", applicationContext)
     }
 
     private fun login() {
@@ -58,6 +60,7 @@ class LoginActivity : AppCompatActivity() {
         userInfo.getUserInfo(object : LoginListener() {
             override fun onComplete(any: Any) {
                 super.onComplete(any)
+                Log.i("Login", "onComplete: $any")
                 val response = any as JSONObject
                 val nickname = response.optString("nickname")
                 val avatar = response.optString("figureurl_2")

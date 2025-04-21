@@ -21,7 +21,7 @@
       "size": 43,
       "enable": true,
       "index": 2,
-      "route": "activity_publish",
+      "route": "home_fragment",
       "title": ""
     },
     {

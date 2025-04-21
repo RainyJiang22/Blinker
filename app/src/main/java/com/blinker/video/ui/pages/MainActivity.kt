@@ -26,20 +26,20 @@ class MainActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //enableEdgeToEdge()
-//        setContentView(R.layout.activity_main)
-//        NavGraphBuilder.build(navController, this, R.id.fragment_container)
-//        val appBottomBar = findViewById<AppBottomBar>(R.id.app_bottom_bar)
-//        appBottomBar.setOnItemSelectedListener {
-//            val tab = AppConfig.getBottomConfig().tabs[it.order]
-//            navController.switchTab(tab.route!!)
-//            !TextUtils.isEmpty(it.title)
-//        }
-
-        setContent {
-            BlinkerTheme {
-
-            }
+        setContentView(R.layout.activity_main)
+        NavGraphBuilder.build(navController, this, R.id.fragment_container)
+        val appBottomBar = findViewById<AppBottomBar>(R.id.app_bottom_bar)
+        appBottomBar.setOnItemSelectedListener {
+            val tab = AppConfig.getBottomConfig().tabs[it.order]
+            navController.switchTab(tab.route!!)
+            !TextUtils.isEmpty(it.title)
         }
+//
+//        setContent {
+//            BlinkerTheme {
+//
+//            }
+//        }
     }
 }
 

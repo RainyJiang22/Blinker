@@ -6,79 +6,102 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.text.TextUtils
 import android.util.AttributeSet
+import android.util.TypedValue
 import com.blinker.video.R
 import com.blinker.video.ui.utils.AppConfig
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarMenuView
 import kotlin.math.roundToInt
+import androidx.core.graphics.toColorInt
+import androidx.core.view.forEach
 
 /**
  * @author jiangshiyu
  * @date 2024/12/11
  */
 @SuppressLint("RestrictedApi")
-class AppBottomBar @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null
+class AppBottomBarWithCenter @JvmOverloads constructor(
+    context: Context, attrs: AttributeSet? = null,
 ) : BottomNavigationView(context, attrs) {
+
     private val sIcons = intArrayOf(
         R.drawable.icon_tab_main,
         R.drawable.icon_tab_category,
-        R.drawable.icon_tab_publish,
+        R.drawable.icon_tab_publish, // 中间大按钮
         R.drawable.icon_tab_tags,
         R.drawable.icon_tab_user
     )
+
     init {
         val config = AppConfig.getBottomConfig()
 
-        val states = arrayOfNulls<IntArray>(2)
-        states[0] = IntArray(1) { android.R.attr.state_selected }
-        states[1] = intArrayOf()
-
-        val colors =
-            intArrayOf(Color.parseColor(config.activeColor), Color.parseColor(config.inActiveColor))
+        val states = arrayOf(
+            intArrayOf(android.R.attr.state_selected),
+            intArrayOf()
+        )
+        val colors = intArrayOf(
+            config.activeColor.toColorInt(),
+            config.inActiveColor.toColorInt()
+        )
         val colorStateList = ColorStateList(states, colors)
         itemTextColor = colorStateList
         itemIconTintList = colorStateList
-        //LABEL_VISIBILITY_LABELED:设置按钮的文本为一直显示模式
-        //LABEL_VISIBILITY_AUTO:当按钮个数小于三个时一直显示，或者当按钮个数大于3个且小于5个时，被选中的那个按钮文本才会显示
-        //LABEL_VISIBILITY_SELECTED：只有被选中的那个按钮的文本才会显示
-        //LABEL_VISIBILITY_UNLABELED:所有的按钮文本都不显示
         labelVisibilityMode = LABEL_VISIBILITY_SELECTED
 
         val tabs = config.tabs
         tabs.forEachIndexed { index, tab ->
             if (!tab.enable) return@forEachIndexed
-            val menuItem = menu.add(0, tab.route.hashCode(), index, tab.title)
-            menuItem.setIcon(sIcons[index])
+            menu.add(0, tab.route.hashCode(), index, tab.title).setIcon(sIcons[index])
         }
-        tabs.forEachIndexed { index, tab ->
-            println("forEachIndexed:${index},${tab.size}")
-            val iconSize = dp2Px(tab.size)
+
+        post {
             val menuView = getChildAt(0) as NavigationBarMenuView
-            menuView.clipChildren = false
-            menuView.clipToPadding = false
-            val itemView = menuView.getChildAt(index) as BottomNavigationItemView
-            itemView.setIconSize(iconSize)
-            if (TextUtils.isEmpty(tab.title)) {
-                itemView.setIconTintList(ColorStateList.valueOf(Color.parseColor(config.activeColor)))
-                post(Runnable{
-                    itemView.scrollBy(0, dp2Px(20))
-                })
+            var menuIndex = 0
+            tabs.forEach { tab ->
+                if (!tab.enable) return@forEach
+
+                val itemView = menuView.getChildAt(menuIndex) as BottomNavigationItemView
+
+                // 中间按钮放大并隐藏文字
+                if (tab.route == "publish") {
+                    val iconSizePx = dpToPx(tab.size * 1.5f)
+                    itemView.setIconSize(iconSizePx)
+                    itemView.setShifting(false)
+                    itemView.setLabelVisibilityMode(LABEL_VISIBILITY_UNLABELED)
+
+                    // 设置点击事件，手动更新选中状态
+                    itemView.setOnClickListener {
+                        // 清除其他菜单选中状态
+                        menu.forEach { it.isChecked = false }
+                        itemView.isSelected = true
+                        // 可触发中间按钮回调
+                        onCenterClickListener?.invoke()
+                    }
+                } else {
+                    val iconSizePx = dpToPx(tab.size.toFloat())
+                    itemView.setIconSize(iconSizePx)
+                }
+                menuIndex++
             }
         }
 
-        if (config.selectTab >= 0) {
-            val tab = tabs[config.selectTab]
-            val itemId = tab.route.hashCode()
+        // 默认选中
+        if (config.selectTab >= 0 && config.selectTab < tabs.size) {
             post {
-                selectedItemId = itemId
+                selectedItemId = tabs[config.selectTab].route.hashCode()
             }
         }
     }
 
-    private fun dp2Px(size: Int): Int {
-        val density = context.resources.displayMetrics.density
-        return (density * size + 0.5f).roundToInt()
+    private fun dpToPx(dp: Float): Int {
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, dp, resources.displayMetrics
+        ).toInt()
+    }
+
+    private var onCenterClickListener: (() -> Unit)? = null
+    fun setOnCenterClickListener(listener: () -> Unit) {
+        onCenterClickListener = listener
     }
 }

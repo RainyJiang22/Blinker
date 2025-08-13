@@ -48,11 +48,11 @@ import androidx.compose.ui.unit.sp
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.fragment.NavHostFragment
 import com.blinker.video.R
-import com.blinker.video.ui.widget.AppBottomBar
 import com.blinker.video.ui.navigation.NavGraphBuilder
 import com.blinker.video.ui.theme.BlinkerTheme
 import com.blinker.video.ui.utils.AppConfig
 import com.blinker.video.ui.utils.switchTab
+import com.blinker.video.ui.widget.AppBottomBarWithCenter
 import kotlinx.coroutines.delay
 
 class MainActivity : FragmentActivity() {
@@ -66,7 +66,7 @@ class MainActivity : FragmentActivity() {
         //enableEdgeToEdge()
         setContentView(R.layout.activity_main)
         NavGraphBuilder.build(navController, this, R.id.fragment_container)
-        val appBottomBar = findViewById<AppBottomBar>(R.id.app_bottom_bar)
+        val appBottomBar = findViewById<AppBottomBarWithCenter>(R.id.app_bottom_bar)
         appBottomBar.setOnItemSelectedListener {
             val tab = AppConfig.getBottomConfig().tabs[it.order]
             navController.switchTab(tab.route!!)

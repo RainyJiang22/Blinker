@@ -16,7 +16,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.blinker.video.ui.widget.AppBottomBar
+    <com.blinker.video.ui.widget.AppBottomBarWithCenter
         android:id="@+id/app_bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="58dp"

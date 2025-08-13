@@ -20,7 +20,7 @@ class GsonResponseBodyConverter<T> constructor(private val gson: Gson, private v
             val apiResult = ApiResult<T>()
             val response = JSONObject(value.string())
             apiResult.status = response.optInt("status")
-            apiResult.errMsg = response.optString("message")
+            apiResult.message = response.optString("message")
             val data1: JSONObject? = response.optJSONObject("data")
             if (data1 != null) {
                 val data2: String? = data1.optString("data")

@@ -1,5 +1,6 @@
 package com.blinker.video.ui.pages.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -10,6 +11,7 @@ import androidx.paging.cachedIn
 import com.blinker.video.http.ApiResult
 import com.blinker.video.http.ApiService
 import com.blinker.video.model.Feed
+import java.util.logging.Logger
 
 /**
  * @author jiangshiyu
@@ -38,20 +40,30 @@ class HomeViewModel : ViewModel() {
         }
 
         override suspend fun load(params: LoadParams<Long>): LoadResult<Long, Feed> {
-            val result = kotlin.runCatching {
-                ApiService.getService().getFeeds(feedId = params.key ?: 0L, feedType = feedType)
-            }
-            val apiResult = result.getOrDefault(ApiResult())
-            if (apiResult.success && apiResult.body?.isNotEmpty() == true) {
-                return LoadResult.Page(apiResult.body!!, null, apiResult.body?.last()?.id)
+            val feedId = params.key ?: 0L
+            val result = runCatching {
+                ApiService.getService().getFeeds(feedId = feedId, feedType = feedType)
             }
 
-            return if (params.key == null) {
-                LoadResult.Page(arrayListOf(), null, 0)
+            val apiResult = result.getOrDefault(ApiResult())
+
+            return if (apiResult.success && !apiResult.body.isNullOrEmpty()) {
+                val data = apiResult.body!!
+                val nextKey = if (data.isEmpty()) null else data.last().itemId
+
+                Log.i("resource", "load:$data ")
+                LoadResult.Page(
+                    data = data,
+                    prevKey = null,
+                    nextKey = if (nextKey == feedId) null else nextKey
+                )
             } else {
-                LoadResult.Error(java.lang.RuntimeException("No more data to fetch"))
+                LoadResult.Page(
+                    data = emptyList(),
+                    prevKey = null,
+                    nextKey = null // 没有更多数据时必须 null
+                )
             }
         }
-
     }
 }

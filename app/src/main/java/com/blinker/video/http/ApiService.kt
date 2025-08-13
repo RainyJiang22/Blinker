@@ -18,7 +18,7 @@ object ApiService {
         .build()
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://8.136.122.222/jetpack/")
+        .baseUrl("http://192.168.5.48:9992/video/")
         .client(okhttpClient)
         .addConverterFactory(GsonConvertFactory())
         .build()

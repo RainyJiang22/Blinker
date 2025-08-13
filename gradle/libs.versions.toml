@@ -2,6 +2,7 @@
 activityKtx = "1.8.2"
 agp = "8.6.0"
 blankjUtilcode = "1.30.7"
+constraintlayoutCompose = "1.0.1"
 fragmentKtx = "1.6.2"
 glide = "4.15.0"
 glideTransformations = "4.3.0"
@@ -22,6 +23,7 @@ pluginPublish = "1.1.0"
 
 [libraries]
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activityKtx" }
+androidx-constraintlayout-compose = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "constraintlayoutCompose" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
 com-blankj-utilcode = { module = "com.blankj:utilcode", version.ref = "blankjUtilcode" }

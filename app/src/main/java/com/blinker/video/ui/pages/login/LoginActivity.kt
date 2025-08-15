@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.blinker.video.databinding.ActivityLayoutLoginBinding
+import com.blinker.video.http.ApiService
 import com.blinker.video.ui.utils.invokeViewBinding
 import com.tencent.connect.UserInfo
 import com.tencent.connect.common.Constants
@@ -71,7 +72,16 @@ class LoginActivity : AppCompatActivity() {
 
     private fun save(nickname: String, avatar: String) {
         lifecycleScope.launch {
-
+            val apiResult = ApiService.getService()
+                .saveUser(nickname, avatar, tencent.openId, tencent.expiresIn)
+            if (apiResult.success && apiResult.body != null) {
+                UserManager.save(apiResult.body!!)
+                finish()
+            } else {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@LoginActivity, "登录失败", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 

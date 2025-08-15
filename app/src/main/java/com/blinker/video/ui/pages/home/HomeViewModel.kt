@@ -11,6 +11,7 @@ import androidx.paging.cachedIn
 import com.blinker.video.http.ApiResult
 import com.blinker.video.http.ApiService
 import com.blinker.video.model.Feed
+import com.blinker.video.ui.pages.login.UserManager
 import java.util.logging.Logger
 
 /**
@@ -42,9 +43,16 @@ class HomeViewModel : ViewModel() {
         override suspend fun load(params: LoadParams<Long>): LoadResult<Long, Feed> {
             val feedId = params.key ?: 0L
             val result = runCatching {
-                ApiService.getService().getFeeds(feedId = feedId, feedType = feedType)
+                ApiService.getService().getFeeds(
+                    feedId = feedId,
+                    feedType = feedType,
+                    userId = UserManager.userId()
+                )
             }
 
+            if (result.isFailure) {
+                result.exceptionOrNull()?.printStackTrace()
+            }
             val apiResult = result.getOrDefault(ApiResult())
 
             return if (apiResult.success && !apiResult.body.isNullOrEmpty()) {

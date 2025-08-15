@@ -7,6 +7,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.viewbinding.ViewBinding
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
@@ -64,9 +65,12 @@ inline fun <reified VM : ViewModel> invokeViewModel() = FragmentViewModelPropert
 
 
 class FragmentViewModelProperty<VM : ViewModel>(private val clazz: Class<VM>) :
-    ReadOnlyProperty<Fragment, VM> {
+    ReadOnlyProperty<Any, VM> {
     private var vm: VM? = null
-    override fun getValue(thisRef: Fragment, property: KProperty<*>): VM {
+    override fun getValue(thisRef: Any, property: KProperty<*>): VM {
+        if (thisRef !is ViewModelStoreOwner) {
+            throw java.lang.IllegalStateException("invokeViewModel can only be used in ViewModelStoreOwner instance")
+        }
         if (vm == null) {
             vm = ViewModelProvider(thisRef, ViewModelProvider.NewInstanceFactory())[clazz]
         }

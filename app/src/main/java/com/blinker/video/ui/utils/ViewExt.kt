@@ -54,7 +54,7 @@ fun MaterialButton.setMaterialButton(
     }
     setIconResource(if (condition) trueRes else falseRes)
     val likeStateColor =
-        ColorStateList.valueOf(context.getColor(if (condition) R.color.color_theme_10 else R.color.color_3d3))
+        ColorStateList.valueOf(context.getColor(if (condition) R.color.color_theme else R.color.color_3d3))
     iconTint = likeStateColor
     setTextColor(likeStateColor)
 }

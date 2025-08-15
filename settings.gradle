@@ -61,14 +61,14 @@ dependencyResolutionManagement {
             library('qqopensdk','com.tencent.tauth','qqopensdk').version('3.52.0')
 
             // room
-            def room_version='2.5.0'
+            def room_version='2.6.1'
             library('room-runtime','androidx.room','room-runtime').version(room_version)
             library('room-ktx','androidx.room','room-ktx').version(room_version)
             library('room-compiler','androidx.room','room-compiler').version(room_version)
             bundle('room',['room-runtime','room-ktx'])
 
             // aliyun oss
-            library('osssdk','com.aliyun.dpa','oss-android-sdk').version('2.9.11')
+            library('osssdk','com.aliyun.dpa','oss-android-sdk').version('2.9.13')
 
             // camerax
             def camerax_version="1.3.0-alpha04"

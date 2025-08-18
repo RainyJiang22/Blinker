@@ -20,19 +20,37 @@ import java.util.logging.Logger
  */
 class HomeViewModel : ViewModel() {
 
+    private var feedType: String = "all"
+
+    // 保存 PagingSource 引用，方便刷新
+    private var currentSource: HomePagingResource? = null
+
     val hotFeeds = Pager(
         config = PagingConfig(
             pageSize = 10,
             initialLoadSize = 10,
             enablePlaceholders = false,
             prefetchDistance = 1
-        ), pagingSourceFactory = {
-            HomePagingResource()
-        }).flow.cachedIn(viewModelScope)
+        ),
+        pagingSourceFactory = {
+            HomePagingResource().also { currentSource = it }
+        }
+    ).flow.cachedIn(viewModelScope)
 
-    private var feedType: String = "all"
+    private var feedTypeInitialized = false
+
     fun setFeedType(feedType: String) {
-        this.feedType = feedType
+        if (this.feedType != feedType) {
+            this.feedType = feedType
+
+            if (feedTypeInitialized) {
+                // 只有后续切换才刷新
+                currentSource?.invalidate()
+            } else {
+                // 第一次只是初始化，不刷新
+                feedTypeInitialized = true
+            }
+        }
     }
 
     inner class HomePagingResource : PagingSource<Long, Feed>() {
@@ -45,7 +63,7 @@ class HomeViewModel : ViewModel() {
             val result = runCatching {
                 ApiService.getService().getFeeds(
                     feedId = feedId,
-                    feedType = feedType,
+                    feedType = feedType, // 用最新的 feedType
                     userId = UserManager.userId()
                 )
             }
@@ -59,17 +77,18 @@ class HomeViewModel : ViewModel() {
                 val data = apiResult.body!!
                 val nextKey = if (data.isEmpty()) null else data.last().itemId
 
-                Log.i("resource", "load:$data ")
+                Log.i("resource", "load:$data")
                 LoadResult.Page(
                     data = data,
                     prevKey = null,
                     nextKey = if (nextKey == feedId) null else nextKey
                 )
             } else {
+                //没有更多数据
                 LoadResult.Page(
                     data = emptyList(),
                     prevKey = null,
-                    nextKey = null // 没有更多数据时必须 null
+                    nextKey = null
                 )
             }
         }

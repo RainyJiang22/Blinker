@@ -7,6 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import com.blinker.video.list.AbsListFragment
 import com.blinker.video.plugin.runtime.NavDestination
 import com.blinker.video.ui.utils.invokeViewModel
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 /**
@@ -22,7 +23,7 @@ class HomeFragment : AbsListFragment() {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launch {
             viewModel.setFeedType(getFeedType())
-            viewModel.hotFeeds.collect {
+            viewModel.hotFeeds.collectLatest {
                 submitData(it)
             }
         }

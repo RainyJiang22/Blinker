@@ -1,25 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clipChildren="false"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:clipChildren="false">
 
+    <com.blinker.video.ui.widget.FakeStatusView
+        android:id="@+id/status_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:defaultNavHost="true"
         android:layout_marginBottom="58dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:defaultNavHost="true"
+        app:layout_constraintTop_toBottomOf="@id/status_bar"
+        app:layout_constraintLeft_toLeftOf="parent" />
 
     <com.blinker.video.ui.widget.AppBottomBarWithCenter
         android:id="@+id/app_bottom_bar"
         android:layout_width="match_parent"
-        android:layout_height="58dp"
+        android:layout_height="wrap_content"
         android:background="?android:attr/windowBackground"
         android:clipChildren="false"
         app:layout_constraintBottom_toBottomOf="parent"

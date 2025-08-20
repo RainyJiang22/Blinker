@@ -55,41 +55,42 @@ class HomeViewModel : ViewModel() {
 
     inner class HomePagingResource : PagingSource<Long, Feed>() {
         override fun getRefreshKey(state: PagingState<Long, Feed>): Long? {
-            return null
+            // 找到最近访问的 anchorPosition，返回它前一个 item 的 key，这样刷新时能尽量保证位置不变
+            return state.anchorPosition?.let { anchor ->
+                state.closestItemToPosition(anchor)?.itemId
+            }
         }
 
         override suspend fun load(params: LoadParams<Long>): LoadResult<Long, Feed> {
             val feedId = params.key ?: 0L
-            val result = runCatching {
-                ApiService.getService().getFeeds(
+            return try {
+                val apiResult = ApiService.getService().getFeeds(
                     feedId = feedId,
-                    feedType = feedType, // 用最新的 feedType
+                    feedType = feedType, // 总是用最新的 feedType
                     userId = UserManager.userId()
                 )
-            }
 
-            if (result.isFailure) {
-                result.exceptionOrNull()?.printStackTrace()
-            }
-            val apiResult = result.getOrDefault(ApiResult())
+                if (apiResult.success) {
 
-            return if (apiResult.success && !apiResult.body.isNullOrEmpty()) {
-                val data = apiResult.body!!
-                val nextKey = if (data.isEmpty()) null else data.last().itemId
+                    val data = apiResult.body ?: emptyList()
 
-                Log.i("resource", "load:$data")
-                LoadResult.Page(
-                    data = data,
-                    prevKey = null,
-                    nextKey = if (nextKey == feedId) null else nextKey
-                )
-            } else {
-                //没有更多数据
-                LoadResult.Page(
-                    data = emptyList(),
-                    prevKey = null,
-                    nextKey = null
-                )
+                    // 拿到下一页的 key（用最后一个 item 的 id 作为游标）
+                    val nextKey = data.lastOrNull()?.itemId
+                    LoadResult.Page(
+                        data = data,
+                        prevKey = null, // 这里不支持向上加载
+                        nextKey = if (nextKey == feedId) null else nextKey
+                    )
+                } else {
+                    LoadResult.Page(
+                        data = emptyList(),
+                        prevKey = null,
+                        nextKey = null
+                    )
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                LoadResult.Error(e)
             }
         }
     }

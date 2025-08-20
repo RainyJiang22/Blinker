@@ -57,7 +57,7 @@ class FeedAdapter constructor(
 ) :
     PagingDataAdapter<Feed, FeedAdapter.FeedViewHolder>(object : DiffUtil.ItemCallback<Feed>() {
         override fun areItemsTheSame(oldItem: Feed, newItem: Feed): Boolean {
-            return oldItem.itemId == newItem.itemId
+            return oldItem.itemId == newItem.itemId || oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Feed, newItem: Feed): Boolean {

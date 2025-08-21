@@ -34,7 +34,7 @@ object AppConfig {
         return sCategory!!
     }
 
-    private fun parseFile(fileName: String): String {
+    fun parseFile(fileName: String): String {
         val assets = AppGlobals.getApplication().assets
         var inputStream: InputStream? = null
         var br: BufferedReader? = null

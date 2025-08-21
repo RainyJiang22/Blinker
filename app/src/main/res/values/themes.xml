@@ -18,4 +18,13 @@
         <item name="windowActionBar">false</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="capture" parent="Theme.APP">
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="preview" parent="Theme.APP">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@color/black</item>
+    </style>
 </resources>

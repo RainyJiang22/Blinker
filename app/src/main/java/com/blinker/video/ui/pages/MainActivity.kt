@@ -1,5 +1,6 @@
 package com.blinker.video.ui.pages
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import androidx.compose.foundation.Image
@@ -49,10 +50,11 @@ import androidx.fragment.app.FragmentActivity
 import androidx.navigation.fragment.NavHostFragment
 import com.blinker.video.R
 import com.blinker.video.ui.navigation.NavGraphBuilder
+import com.blinker.video.ui.pages.publish.CaptureActivity
 import com.blinker.video.ui.theme.BlinkerTheme
 import com.blinker.video.ui.utils.AppConfig
 import com.blinker.video.ui.utils.switchTab
-import com.blinker.video.ui.widget.AppBottomBarWithCenter
+import com.blinker.video.ui.widget.AppBottomBar
 import kotlinx.coroutines.delay
 
 class MainActivity : FragmentActivity() {
@@ -66,18 +68,16 @@ class MainActivity : FragmentActivity() {
         //enableEdgeToEdge()
         setContentView(R.layout.activity_main)
         NavGraphBuilder.build(navController, this, R.id.fragment_container)
-        val appBottomBar = findViewById<AppBottomBarWithCenter>(R.id.app_bottom_bar)
+        val appBottomBar = findViewById<AppBottomBar>(R.id.app_bottom_bar)
         appBottomBar.setOnItemSelectedListener {
             val tab = AppConfig.getBottomConfig().tabs[it.order]
-            navController.switchTab(tab.route!!)
+            if (tab.route == "activity_capture") {
+                startActivity(Intent(this, CaptureActivity::class.java))
+            } else {
+                navController.switchTab(tab.route!!)
+            }
             !TextUtils.isEmpty(it.title)
         }
-//
-//        setContent {
-//            BlinkerTheme {
-//
-//            }
-//        }
     }
 }
 
@@ -285,7 +285,7 @@ fun ContentSection() {
                 R.drawable.icon_tag,
                 R.drawable.icon_tag,
                 R.drawable.icon_tag
-        )
+            )
         )
     }
 }

@@ -10,8 +10,5 @@ class BlinkerApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-
-
-
     }
 }

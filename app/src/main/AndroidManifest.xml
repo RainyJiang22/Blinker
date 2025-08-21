@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES"/>
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="LockedOrientationActivity">
+
+
+    <uses-feature android:name="android.hardware.camera.any" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
 
     <!--android 9及以上 需要授权特定包名，才可以通过getQueryIntent查询应用是否已安装-->
     <queries>
@@ -11,16 +25,16 @@
     </queries>
 
     <application
-        android:allowBackup="true"
         android:name=".application.BlinkerApp"
+        android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/app_launcher"
         android:label="@string/app_name"
-        android:usesCleartextTraffic="true"
         android:roundIcon="@drawable/app_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.APP"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
         <!-- 这是是QQ快捷登录SDK 里面包含但没用的apache的类，需要在这里通过uses-library -->
@@ -63,6 +77,21 @@
         <activity
             android:name=".ui.pages.login.LoginActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.pages.publish.PublishActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.pages.publish.CaptureActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/capture" />
+
+        <activity
+            android:name=".ui.pages.publish.PreviewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/preview" />
+
     </application>
 
 </manifest>

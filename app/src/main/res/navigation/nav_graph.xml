@@ -41,4 +41,10 @@
     </fragment>
 
 
+    <activity
+        android:id="@+id/activity_capture"
+        android:name="com.blinker.video.ui.pages.publish.CaptureActivity">
+
+    </activity>
+
 </navigation>

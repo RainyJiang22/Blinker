@@ -18,10 +18,10 @@
       "title": "沙发"
     },
     {
-      "size": 43,
+      "size": 39,
       "enable": true,
       "index": 2,
-      "route": "home_fragment",
+      "route": "activity_capture",
       "title": ""
     },
     {

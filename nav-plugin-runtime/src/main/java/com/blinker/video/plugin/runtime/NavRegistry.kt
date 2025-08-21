@@ -41,6 +41,15 @@ object NavRegistry {
                 NavDestination.NavType.Fragment
             )
         )
+
+        navList.add(
+            NavData(
+                "activity_capture",
+                "com.blinker.video.ui.pages.publish.CaptureActivity",
+                false,
+                NavDestination.NavType.Activity
+            )
+        )
     }
 
     fun get(): List<NavData> {

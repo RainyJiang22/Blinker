@@ -10,6 +10,7 @@ import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.get
 import com.blinker.video.plugin.runtime.NavDestination
 import com.blinker.video.plugin.runtime.NavRegistry
+import kotlin.hashCode
 
 /**
  * @author jiangshiyu
@@ -18,12 +19,12 @@ import com.blinker.video.plugin.runtime.NavRegistry
 object NavGraphBuilder {
 
     fun build(controller: NavController, context: FragmentActivity, containerId: Int) {
-        //1.构建navGraph路由表对象
+        // 1. 构建navGraph路由表对象
         val provider = controller.navigatorProvider
         val graphNavigator = provider.get<NavGraphNavigator>("navigation")
         val navGraph = graphNavigator.createDestination()
 
-        val iterator = NavRegistry.get().iterator()
+        val iterator = NavRegistry.get().listIterator()
         while (iterator.hasNext()) {
             val navData = iterator.next()
             when (navData.type) {
@@ -34,7 +35,6 @@ object NavGraphBuilder {
                     destination.setClassName(navData.className)
                     navGraph.addDestination(destination)
                 }
-
                 NavDestination.NavType.Activity -> {
                     val navigator = provider.get<ActivityNavigator>("activity")
                     val destination = navigator.createDestination();

@@ -2,8 +2,11 @@ package com.blinker.video.http
 
 import com.blinker.video.model.Author
 import com.blinker.video.model.Feed
+import com.blinker.video.model.TagList
 import com.google.gson.JsonObject
+import retrofit2.http.Field
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Query
 
 /**
@@ -69,5 +72,40 @@ interface IApiInterface {
         @Query("itemId") itemId: Long,
         @Query("userId") userId: Long
     ): ApiResult<JsonObject>
+
+
+    /**
+     * 发布一条帖子
+     * @param coverUrl 视频封面图的http-url，如果发布的是视频帖子，则该参数必填
+     * @param fileUrl 图片或视频文件的http-url,如果发布的是视频或图片帖子，则该参数必填
+     * @param fileWidth 图片或视频文件的原始宽
+     * @param fileHeight 图片或视频文件的原始高
+     * @param tagId 选择的标签的tagId
+     * @param tagTitle 选择的标签的title
+     * @param tagTitle 发布的帖子的文本
+     */
+    @POST("feeds/publish")
+    suspend fun publishFeed(
+        @Field("coverUrl") coverUrl: String? = null,
+        @Field("fileUrl") fileUrl: String? = null,
+        @Field("fileWidth") fileWidth: Int = 0,
+        @Field("fileHeight") fileHeight: Int = 0,
+        @Field("tagId") tagId: Long,
+        @Field("tagTitle") tagTitle: String,
+        @Field("feedText") feedText: String,
+        @Field("userId") userId: Long
+    ): ApiResult<JsonObject>
+
+
+    /**
+     * 发布帖子时用于查询可用的标签集合
+     * @param userId 当前登陆者的id
+     * @param tagId 分页查询才需要，默认0即可
+     */
+    @GET("tag/queryTagList")
+    suspend fun getTagList(
+        @Query("userId") userId: Long,
+        @Query("tagId") tagId: Long = 0
+    ): ApiResult<List<TagList>>
 
 }

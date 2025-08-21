@@ -53,6 +53,7 @@ import com.blinker.video.ui.navigation.NavGraphBuilder
 import com.blinker.video.ui.pages.publish.CaptureActivity
 import com.blinker.video.ui.theme.BlinkerTheme
 import com.blinker.video.ui.utils.AppConfig
+import com.blinker.video.ui.utils.injectNavGraph
 import com.blinker.video.ui.utils.switchTab
 import com.blinker.video.ui.widget.AppBottomBar
 import kotlinx.coroutines.delay
@@ -65,9 +66,8 @@ class MainActivity : FragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        NavGraphBuilder.build(navController, this, R.id.fragment_container)
+        injectNavGraph(navController)
         val appBottomBar = findViewById<AppBottomBar>(R.id.app_bottom_bar)
         appBottomBar.setOnItemSelectedListener {
             val tab = AppConfig.getBottomConfig().tabs[it.order]

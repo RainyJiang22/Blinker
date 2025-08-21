@@ -50,9 +50,11 @@ class HomeViewModel : ViewModel() {
             if (apiResult.success && data?.isNotEmpty() == true) {
                 return LoadResult.Page(data, null, data.last().itemId)
             }
-            return if (params.key == null) LoadResult.Page(
-                arrayListOf(), null, 0
-            ) else LoadResult.Error(java.lang.RuntimeException("No more data to fetch"))
+            return if (params.key == null) {
+                LoadResult.Page(arrayListOf(), null, 0)
+            } else {
+                LoadResult.Error(RuntimeException("No more data to fetch"))
+            }
         }
     }
 }

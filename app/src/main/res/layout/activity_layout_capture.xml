@@ -26,11 +26,18 @@
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="@dimen/dp_60"
         android:indeterminate="false"
-        android:background="@drawable/capture_progress_background"
+        android:background="@drawable/capture_progress_solid_background"
         android:max="100"
         android:progress="0"
         android:visibility="visible"
         app:indicatorColor="@color/color_theme"
-        app:indicatorSize="@dimen/dp_100"
+        app:indicatorSize="@dimen/dp_80"
         app:trackThickness="@dimen/dp_6" />
+    <View
+        android:id="@+id/focus_point"
+        android:layout_width="@dimen/dp_64"
+        android:layout_height="@dimen/dp_64"
+        android:background="@drawable/capture_focus_drawable"
+        android:visibility="gone" />
+
 </FrameLayout>

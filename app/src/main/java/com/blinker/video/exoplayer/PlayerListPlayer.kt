@@ -23,6 +23,9 @@ import com.google.android.exoplayer2.upstream.cache.CacheDataSink
 import com.google.android.exoplayer2.upstream.cache.CacheDataSource
 import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor
 import com.google.android.exoplayer2.upstream.cache.SimpleCache
+import androidx.core.net.toUri
+import com.google.android.exoplayer2.upstream.DataSpec
+import java.io.File
 
 /**
  * @author jiangshiyu
@@ -188,13 +191,21 @@ class PageListPlayer : IListPlayer, Player.Listener, StyledPlayerControlView.Vis
         }
 
         fun createMediaSource(videoUrl: String): MediaSource {
-            return progressiveMediaSourceFactory.createMediaSource(
-                MediaItem.fromUri(
-                    Uri.parse(
-                        videoUrl
-                    )
+            val file = File(videoUrl)
+            // 如果是本地视频文件，则重新创建一个ProgressiveMediaSource，
+            // 并且dataSourceFactory指定为FileDataSource.factory,才能正常的从本地文件播放视频
+            if (file.exists()) {
+                val dataSpec = DataSpec(Uri.fromFile(file))
+                val fileDataSource = FileDataSource()
+                fileDataSource.open(dataSpec)
+                val uri = fileDataSource.uri
+                val factory = ProgressiveMediaSource.Factory(FileDataSource.Factory())
+                return factory.createMediaSource(MediaItem.fromUri(uri!!))
+            } else {
+                return progressiveMediaSourceFactory.createMediaSource(
+                    MediaItem.fromUri(videoUrl.toUri())
                 )
-            )
+            }
         }
     }
 }

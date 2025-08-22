@@ -3,6 +3,7 @@ package com.blinker.video.ui.pages.publish
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.ComponentCaller
 import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -26,6 +27,7 @@ import androidx.camera.core.CameraSelector
 import androidx.camera.core.FocusMeteringAction
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
+import androidx.camera.core.Logger
 import androidx.camera.core.Preview
 import androidx.camera.core.ResolutionSelector
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -98,14 +100,14 @@ class CaptureActivity : AppCompatActivity() {
         private const val RELATIVE_PATH_VIDEO = "Movies/Blinker"
 
         // request code
-        private const val REQ_CAPTURE = 10001
+        internal const val REQ_CAPTURE = 10001
         private const val PERMISSION_CODE = 1000
 
         // output file information
-        private const val RESULT_FILE_PATH = "file_path"
-        private const val RESULT_FILE_HEIGHT = "file_height"
-        private const val RESULT_FILE_WIDTH = "file_width"
-        private const val RESULT_FILE_TYPE = "file_type"
+        internal const val RESULT_FILE_PATH = "file_path"
+        internal const val RESULT_FILE_HEIGHT = "file_height"
+        internal const val RESULT_FILE_WIDTH = "file_width"
+        internal const val RESULT_FILE_TYPE = "file_type"
 
         // exported function used by publishActivity
         fun startActivityForResult(activity: Activity) {
@@ -118,6 +120,23 @@ class CaptureActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
         ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_CODE)
+    }
+
+    override fun onActivityResult(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?
+    ) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == PreviewActivity.REQ_PREVIEW && resultCode == RESULT_OK) {
+            val intent = Intent()
+            intent.putExtra(RESULT_FILE_PATH, outputFilePath)
+            intent.putExtra(RESULT_FILE_WIDTH, outputFileWidth)
+            intent.putExtra(RESULT_FILE_HEIGHT, outputFileHeight)
+            intent.putExtra(RESULT_FILE_TYPE, outputFileMimeType)
+            setResult(RESULT_OK, intent)
+            finish()
+        }
     }
 
     override fun onRequestPermissionsResult(

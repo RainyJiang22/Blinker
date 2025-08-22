@@ -21,7 +21,8 @@
       "size": 39,
       "enable": true,
       "index": 2,
-      "route": "activity_capture",
+      "needLogin":true,
+      "route": "activity_publish",
       "title": ""
     },
     {

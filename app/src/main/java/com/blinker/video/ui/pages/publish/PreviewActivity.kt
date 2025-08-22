@@ -166,7 +166,7 @@ class PreviewActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        PageListPlayer.get(pageName = PAGE_NAME).stop(true)
+        PageListPlayer.stop(pageName = PAGE_NAME)
     }
 
 

@@ -19,6 +19,7 @@ data class Tab(
     var size: Int = 24,
     var enable: Boolean = false,
     var index: Int = 0,
+    var needLogin: Boolean = false,
     var route: String? = null,
     var title: String? = null,
 )

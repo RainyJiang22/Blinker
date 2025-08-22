@@ -38,9 +38,9 @@
             android:id="@+id/action_publish"
             android:layout_width="70dp"
             android:layout_height="@dimen/dp_30"
-            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/dp_16"
+            android:layout_marginRight="@dimen/dp_16"
             android:gravity="center"
             android:insetTop="0dp"
             android:insetBottom="0dp"
@@ -49,6 +49,23 @@
             android:textColor="@color/color_white"
             app:backgroundTint="@color/color_theme"
             app:cornerRadius="15dp" />
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/action_publish_progress"
+            style="@style/Widget.MaterialComponents.CircularProgressIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="16dp"
+            android:gravity="center"
+            android:indeterminate="true"
+            android:visibility="gone"
+            app:indicatorColor="@color/color_theme"
+            app:indicatorInset="2dp"
+            app:indicatorSize="30dp"
+            app:trackColor="@color/color_theme_10"
+            app:trackThickness="4dp" />
 
         <View
             android:layout_width="match_parent"
@@ -122,9 +139,9 @@
         android:id="@+id/file_container"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dp_16"
+        android:layout_marginStart="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_16"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/action_add_tag">
 
@@ -138,6 +155,7 @@
             android:layout_width="@dimen/dp_30"
             android:layout_height="@dimen/dp_30"
             android:layout_gravity="center"
+            android:visibility="gone"
             android:src="@drawable/icon_video_play" />
 
         <androidx.appcompat.widget.AppCompatImageView

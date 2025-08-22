@@ -3,15 +3,14 @@ package com.blinker.video.ui.pages
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -46,23 +45,24 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.fragment.app.FragmentActivity
 import androidx.navigation.fragment.NavHostFragment
 import com.blinker.video.R
-import com.blinker.video.ui.navigation.NavGraphBuilder
-import com.blinker.video.ui.pages.publish.CaptureActivity
+import com.blinker.video.databinding.ActivityMainBinding
+import com.blinker.video.ui.pages.publish.PublishActivity
 import com.blinker.video.ui.theme.BlinkerTheme
-import com.blinker.video.ui.utils.AppConfig
 import com.blinker.video.ui.utils.injectNavGraph
+import com.blinker.video.ui.utils.invokeViewBinding
 import com.blinker.video.ui.utils.switchTab
 import com.blinker.video.ui.widget.AppBottomBar
 import kotlinx.coroutines.delay
 
-class MainActivity : FragmentActivity() {
+class MainActivity : AppCompatActivity() {
 
     private val navController by lazy {
         (supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment).navController
     }
+
+    private val viewBinding: ActivityMainBinding by invokeViewBinding()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,9 +70,9 @@ class MainActivity : FragmentActivity() {
         injectNavGraph(navController)
         val appBottomBar = findViewById<AppBottomBar>(R.id.app_bottom_bar)
         appBottomBar.setOnItemSelectedListener {
-            val tab = AppConfig.getBottomConfig().tabs[it.order]
-            if (tab.route == "activity_capture") {
-                startActivity(Intent(this, CaptureActivity::class.java))
+            val tab = appBottomBar.getTab(it.order)
+            if (tab.route == "activity_publish") {
+                startActivity(Intent(this, PublishActivity::class.java))
             } else {
                 navController.switchTab(tab.route!!)
             }

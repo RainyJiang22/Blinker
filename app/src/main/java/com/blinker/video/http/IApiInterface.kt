@@ -5,6 +5,7 @@ import com.blinker.video.model.Feed
 import com.blinker.video.model.TagList
 import com.google.gson.JsonObject
 import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
@@ -84,6 +85,7 @@ interface IApiInterface {
      * @param tagTitle 选择的标签的title
      * @param tagTitle 发布的帖子的文本
      */
+    @FormUrlEncoded
     @POST("feeds/publish")
     suspend fun publishFeed(
         @Field("coverUrl") coverUrl: String? = null,

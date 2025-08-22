@@ -15,6 +15,8 @@ import com.google.android.material.navigation.NavigationBarMenuView
 import kotlin.math.roundToInt
 import androidx.core.graphics.toColorInt
 import androidx.core.view.forEach
+import com.blinker.video.model.BottomBar
+import com.blinker.video.model.Tab
 
 /**
  * @author jiangshiyu
@@ -67,7 +69,7 @@ class AppBottomBar @JvmOverloads constructor(
             if (TextUtils.isEmpty(tab.title)) {
                 itemView.setIconTintList(ColorStateList.valueOf(config.activeColor.toColorInt()))
                 post(Runnable {
-                    itemView.scrollBy(0, dp2Px(20))
+                    itemView.scrollBy(0, dp2Px(5))
                 })
             }
         }
@@ -84,5 +86,9 @@ class AppBottomBar @JvmOverloads constructor(
     private fun dp2Px(size: Int): Int {
         val density = context.resources.displayMetrics.density
         return (density * size + 0.5f).roundToInt()
+    }
+
+    fun getTab(order: Int): Tab {
+        return AppConfig.getBottomConfig().tabs[order]
     }
 }

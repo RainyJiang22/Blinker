@@ -18,6 +18,6 @@ data class TagList(
     val icon: String?,
     val id: Int,
     val intro: String?,
-    val tagId: Int,
+    val tagId: Long,
     val title: String?
 )

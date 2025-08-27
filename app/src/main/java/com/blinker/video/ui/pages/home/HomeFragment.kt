@@ -23,7 +23,7 @@ class HomeFragment : AbsListFragment() {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launch {
             viewModel.setFeedType(getFeedType())
-            viewModel.hotFeeds.collectLatest {
+            viewModel.pageFlow.collectLatest {
                 submitData(it)
             }
         }

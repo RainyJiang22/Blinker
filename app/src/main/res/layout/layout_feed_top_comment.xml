@@ -12,6 +12,7 @@
     android:paddingBottom="@dimen/dp_10">
 
     <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/god_comment"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dp_60"
         android:layout_gravity="right|top"

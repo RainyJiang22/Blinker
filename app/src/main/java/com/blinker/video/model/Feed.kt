@@ -1,10 +1,12 @@
 package com.blinker.video.model
 
 
+import android.os.Parcelable
 import androidx.annotation.Keep
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
 
 /**
  * @author jiangshiyu
@@ -16,6 +18,7 @@ const val TYPE_IMAGE_TEXT = 1 //图文类型帖子
 const val TYPE_VIDEO = 2//视频类型帖子
 
 @Keep
+@Parcelize
 data class Feed(
     val activityIcon: String?,
     val activityText: String?,
@@ -33,9 +36,8 @@ data class Feed(
     var ugc: Ugc?,
     val url: String?,
     val width: Int,
-) {
     var backgroundColor: Int = 0
-
+) : Parcelable {
     fun getUgcOrDefault(): Ugc {
         if (ugc == null) {
             ugc = Ugc()
@@ -46,6 +48,7 @@ data class Feed(
 
 @Entity(tableName = "author")
 @Keep
+@Parcelize
 data class Author(
     val avatar: String,
     val commentCount: Int,
@@ -65,11 +68,12 @@ data class Author(
     val topCount: Int,
     @PrimaryKey(autoGenerate = false)
     val userId: Long,
-) {
+): Parcelable {
     constructor() : this("", 0, "", 0, 0, 0, 0, 0, false, 0, 0, "", "", 0, 0, 0)
 }
 
 @Keep
+@Parcelize
 data class TopComment(
     val author: Author?,
     //val commentCount: Int,
@@ -87,7 +91,7 @@ data class TopComment(
     val userId: Long,
     val videoUrl: String?,
     val width: Int,
-) {
+): Parcelable {
     fun getUgcOrDefault(): Ugc {
         if (commentUgc == null) {
             commentUgc = Ugc()
@@ -97,6 +101,7 @@ data class TopComment(
 }
 
 @Keep
+@Parcelize
 data class Ugc(
     var commentCount: Int,
     val hasFavorite: Boolean,
@@ -104,6 +109,6 @@ data class Ugc(
     var hasdiss: Boolean,
     var likeCount: Int,
     var shareCount: Int,
-) {
+): Parcelable {
     constructor() : this(0, false, false, false, 0, 0)
 }

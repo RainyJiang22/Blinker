@@ -65,4 +65,5 @@
     <string name="fragment_my_logout">确定要继续退出吗？</string>
     <string name="fragment_my_logout_ok">确定</string>
     <string name="fragment_my_logout_cancel">取消</string>
+    <string name="feed_detail_hint">友善的皮才是真的皮</string>
 </resources>

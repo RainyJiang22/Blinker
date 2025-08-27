@@ -14,7 +14,7 @@ import com.blinker.video.databinding.LayoutAbsListLoadingFooterBinding.inflate
  * @author jiangshiyu
  * @date 2024/12/17
  */
-class FooterLodStateAdapter : LoadStateAdapter<FooterLodStateAdapter.LoadStateViewHolder>() {
+class FooterLoadStateAdapter : LoadStateAdapter<FooterLoadStateAdapter.LoadStateViewHolder>() {
 
 
     override fun onBindViewHolder(holder: LoadStateViewHolder, loadState: LoadState) {

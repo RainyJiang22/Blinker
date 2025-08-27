@@ -20,11 +20,11 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="capture" parent="Theme.APP">
+    <style name="fullScreen" parent="Theme.APP">
         <item name="android:windowFullscreen">true</item>
     </style>
 
-    <style name="preview" parent="Theme.APP">
+    <style name="preview" parent="fullScreen">
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowBackground">@color/black</item>
     </style>

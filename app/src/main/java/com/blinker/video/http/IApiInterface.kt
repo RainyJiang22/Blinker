@@ -3,6 +3,7 @@ package com.blinker.video.http
 import com.blinker.video.model.Author
 import com.blinker.video.model.Feed
 import com.blinker.video.model.TagList
+import com.blinker.video.model.TopComment
 import com.google.gson.JsonObject
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -109,5 +110,39 @@ interface IApiInterface {
         @Query("userId") userId: Long,
         @Query("tagId") tagId: Long = 0
     ): ApiResult<List<TagList>>
+
+    /**
+     * 查询帖子的评论
+     */
+    @GET("comment/queryFeedComments")
+    suspend fun getFeedCommentList(
+        @Query("userId") userId: Long,
+        @Query("itemId") itemId: Long,
+        @Query("commentId") commentId: Long = 0
+    ): ApiResult<List<TopComment>>
+
+    /**
+     * 发布一条评论,  其中videoUrl、imageUrl非必填
+     */
+    @POST("comment/addComment")
+    @FormUrlEncoded
+    suspend fun addComment(
+        @Field("userId") userId: Long,
+        @Field("itemId") itemId: Long,
+        @Field("commentText") commentText: String,
+        @Field("video_url") videoUrl: String? = null,
+        @Field("image_url") imageUrl: String? = null,
+        @Field("width") width: Int = 0,
+        @Field("height") height: Int = 0
+    ): ApiResult<TopComment>
+
+
+    /**
+     * 收藏or 取消收藏帖子
+     */
+    @GET("ugc/toggleFavorite")
+    suspend fun toggleFeedFavorite(
+        @Query("userId") userId: Long, @Query("itemId") itemId: Long
+    ): ApiResult<JsonObject>
 
 }

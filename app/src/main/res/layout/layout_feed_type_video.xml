@@ -14,6 +14,16 @@
         android:id="@+id/feed_text"
         layout="@layout/layout_feed_text" />
 
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/feed_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:transitionName="share_view"
+        android:visibility="gone" />
+
     <com.blinker.video.exoplayer.WrapperPlayerView
         android:id="@+id/feed_video"
         android:layout_width="match_parent"
@@ -32,6 +42,5 @@
     <include
         android:id="@+id/feed_interaction"
         layout="@layout/layout_feed_interaction" />
-
 
 </LinearLayout>

@@ -51,7 +51,7 @@
             android:text="@string/loading_status_empty_no_data_action"
             android:textColor="@color/white"
             android:textSize="@dimen/sp_14"
-            android:visibility="visible"
+            android:visibility="gone"
             app:backgroundTint="@color/color_theme"
             app:cornerRadius="@dimen/dp_20"
             tools:visibility="visible" />

@@ -1,7 +1,9 @@
 package com.blinker.video.list
 
+import android.app.Activity
 import android.graphics.drawable.ColorDrawable
 import android.text.TextUtils
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -33,8 +35,10 @@ import com.blinker.video.model.TYPE_TEXT
 import com.blinker.video.model.TYPE_VIDEO
 import com.blinker.video.model.TopComment
 import com.blinker.video.model.Ugc
+import com.blinker.video.ui.pages.detail.FeedDetailActivity
 import com.blinker.video.ui.pages.login.UserManager
 import com.blinker.video.ui.utils.PixUtil
+import com.blinker.video.ui.utils.bindComment
 import com.blinker.video.ui.utils.load
 import com.blinker.video.ui.utils.setImageResource
 import com.blinker.video.ui.utils.setImageUrl
@@ -111,6 +115,13 @@ class FeedAdapter constructor(
         holder.bindLabel(feedItem.activityText)
         holder.bindTopComment(feedItem.topComment)
         holder.bindInteraction(feedItem.getUgcOrDefault(), feedItem.itemId)
+        holder.itemView.setOnClickListener {
+            FeedDetailActivity.startFeedDetailActivity(
+                it.context as Activity,
+                feedItem, pageName,
+                holder.feedImage!!
+            )
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedViewHolder {
@@ -133,7 +144,7 @@ class FeedAdapter constructor(
             LayoutFeedAuthorBinding.bind(itemView.findViewById(R.id.feed_author))
         private val feedTextBinding =
             LayoutFeedTextBinding.bind(itemView.findViewById(R.id.feed_text))
-        private val feedImage: ImageView? = itemView.findViewById(R.id.feed_image)
+        internal val feedImage: ImageView? = itemView.findViewById(R.id.feed_image)
         private val labelBinding =
             LayoutFeedLabelBinding.bind(itemView.findViewById(R.id.feed_label))
         private val commentBinding =
@@ -203,40 +214,8 @@ class FeedAdapter constructor(
         }
 
         fun bindTopComment(topComment: TopComment?) {
-            commentBinding.root.setVisibility(topComment != null)
-            commentBinding.mediaLayout.setVisibility(topComment?.imageUrl != null)
-            topComment?.run {
-                commentBinding.commentAuthor.setTextVisibility(author?.name)
-                commentBinding.commentAvatar.setImageUrl(author?.avatar, true)
-                commentBinding.commentText.setTextVisibility(commentText)
-                commentBinding.commentLikeCount.setTextVisibility(this.getUgcOrDefault().likeCount.toString())
-                commentBinding.commentPreviewVideoPlay.setVisibility(videoUrl != null)
-                commentBinding.commentLikeCount.setTextColor(
-                    this.getUgcOrDefault().hasLiked,
-                    R.color.color_theme,
-                    R.color.color_3d3
-                )
-                commentBinding.commentLikeStatus.setImageResource(
-                    this.getUgcOrDefault().hasLiked,
-                    R.drawable.icon_cell_liked,
-                    R.drawable.icon_cell_like
-                )
-
-                commentBinding.commentLikeStatus.setOnClickListener {
-                    lifecycleOwner.lifecycleScope.launch {
-                        UserManager.loginIfNeed()
-                        UserManager.getUser().collectLatest {
-                            val apiResult = ApiService.getService()
-                                .toggleCommentLike(commentId, itemId, it.userId)
-                            apiResult.body?.run {
-                                val ugc = topComment.getUgcOrDefault()
-                                ugc.hasLiked = this.getAsJsonPrimitive("hasLiked").asBoolean
-                                ugc.likeCount = this.getAsJsonPrimitive("likeCount").asInt
-                                notifyItemChanged(layoutPosition, topComment)
-                            }
-                        }
-                    }
-                }
+            commentBinding.bindComment(lifecycleOwner, topComment) {
+                notifyItemChanged(bindingAdapterPosition, it.getUgcOrDefault())
             }
         }
 

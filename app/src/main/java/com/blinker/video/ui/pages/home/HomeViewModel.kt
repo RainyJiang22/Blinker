@@ -11,50 +11,25 @@ import com.blinker.video.http.ApiResult
 import com.blinker.video.http.ApiService
 import com.blinker.video.model.Feed
 import com.blinker.video.ui.pages.login.UserManager
+import com.blinker.video.ui.utils.AbsPagingViewModel
 
 /**
  * @author jiangshiyu
  * @date 2024/12/17
  */
-class HomeViewModel : ViewModel() {
-    val hotFeeds = Pager(
-        config = PagingConfig(
-            pageSize = 10, initialLoadSize = 10, enablePlaceholders = false, prefetchDistance = 1
-        ), pagingSourceFactory = {
-            HomePagingSource()
-        }).flow.cachedIn(viewModelScope)
-
+class HomeViewModel : AbsPagingViewModel<Feed>() {
     private var feedType: String = "all"
     fun setFeedType(feedType: String) {
         this.feedType = feedType
     }
 
-    inner class HomePagingSource : PagingSource<Long, Feed>() {
-        override fun getRefreshKey(state: PagingState<Long, Feed>): Long? {
-            return null
-        }
-
-        override suspend fun load(params: LoadParams<Long>): LoadResult<Long, Feed> {
-            val result = kotlin.runCatching {
-                ApiService.getService().getFeeds(
-                    feedId = params.key ?: 0L,
-                    feedType = feedType,
-                    userId = UserManager.userId()
-                )
-            }
-            if (result.isFailure) {
-                result.exceptionOrNull()?.printStackTrace()
-            }
-            val apiResult = result.getOrDefault(ApiResult())
-            val data = apiResult.body
-            if (apiResult.success && data?.isNotEmpty() == true) {
-                return LoadResult.Page(data, null, data.last().itemId)
-            }
-            return if (params.key == null) {
-                LoadResult.Page(arrayListOf(), null, 0)
-            } else {
-                LoadResult.Error(RuntimeException("No more data to fetch"))
-            }
-        }
+    override suspend fun doLoadPage(params: PagingSource.LoadParams<Long>): ApiResult<List<Feed>> {
+        val apiResult = ApiService.getService().getFeeds(
+            feedId = params.key ?: 0L,
+            feedType = feedType,
+            userId = UserManager.userId()
+        )
+        apiResult.nextPageKey = apiResult.body?.lastOrNull()?.itemId
+        return apiResult
     }
 }

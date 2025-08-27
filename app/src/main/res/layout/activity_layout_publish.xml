@@ -116,7 +116,7 @@
         android:textStyle="bold"
         app:backgroundTint="@color/color_white"
         app:cornerRadius="@dimen/dp_13"
-        app:icon="@drawable/ic_add_club"
+        app:icon="@drawable/icon_add_club"
         app:iconGravity="textEnd"
         app:iconPadding="2dp"
         app:iconTint="@color/color_theme"
@@ -131,7 +131,7 @@
         android:layout_height="80dp"
         android:layout_marginStart="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_16"
-        android:src="@drawable/ic_add_file"
+        android:src="@drawable/icon_add_file"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/action_add_tag" />
 

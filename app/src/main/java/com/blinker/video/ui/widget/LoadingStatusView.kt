@@ -18,7 +18,7 @@ import com.blinker.video.databinding.LayoutLoadingStatusViewBinding
  * 页面加载状态通用view
  */
 class LoadingStatusView @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0,
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
     private val binding =
@@ -29,7 +29,11 @@ class LoadingStatusView @JvmOverloads constructor(
     }
 
     @SuppressLint("ResourceType")
-    fun showEmpty(@DrawableRes iconRes: Int = 0, text: String?= null, retry: OnClickListener?) {
+    fun showEmpty(
+        @DrawableRes iconRes: Int = 0,
+        text: String? = null,
+        retry: OnClickListener? = null
+    ) {
         binding.loading.hide()
         binding.emptyLayout.visibility = View.VISIBLE
         if (iconRes > 0) {

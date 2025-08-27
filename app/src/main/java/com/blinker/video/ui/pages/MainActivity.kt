@@ -151,6 +151,7 @@ fun ImmutableComposable() {
             //userProfile.name = "12"
             userProfile = userProfile.copy(2, "李四")
         }) {
+            Text("userProfile不可变")
             Text("userProfile不可变，${userProfile.name},${userProfile.id}")
         }
     }

@@ -23,7 +23,6 @@ import com.blinker.video.ui.utils.setVisibility
 import com.google.android.exoplayer2.util.MimeTypes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.selects.select
 import kotlinx.coroutines.withContext
 import java.util.UUID
 

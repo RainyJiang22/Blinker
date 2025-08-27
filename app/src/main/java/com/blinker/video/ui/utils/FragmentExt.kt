@@ -17,10 +17,9 @@ import kotlin.reflect.KProperty
  * @date 2024/12/14
  */
 inline fun <reified VB : ViewBinding> invokeViewBinding() =
-    FragmentInflateBindingProperty(VB::class.java)
+    InflateBindingProperty(VB::class.java)
 
-
-class FragmentInflateBindingProperty<VB : ViewBinding>(private val clazz: Class<VB>) :
+class InflateBindingProperty<VB : ViewBinding>(private val clazz: Class<VB>) :
     ReadOnlyProperty<Any, VB> {
     private var binding: VB? = null
     override fun getValue(thisRef: Any, property: KProperty<*>): VB {
@@ -31,17 +30,20 @@ class FragmentInflateBindingProperty<VB : ViewBinding>(private val clazz: Class<
                 layoutInflater = thisRef.layoutInflater
                 viewLifecycleOwner = thisRef
             }
-
             is Fragment -> {
                 layoutInflater = thisRef.layoutInflater
                 viewLifecycleOwner = thisRef.viewLifecycleOwner
             }
 
+            is IViewBinding -> {
+                layoutInflater = thisRef.getLayoutInflater()
+                viewLifecycleOwner = thisRef.getLifecycleOwner()
+            }
+
             else -> {
-                throw java.lang.IllegalStateException("invokeViewBinding can only be used in AppCompatActivity or Fragment")
+                throw java.lang.IllegalStateException("invokeViewBinding can only be used in AppCompatActivity or Fragment,or IViewBinding")
             }
         }
-
         if (binding == null) {
             try {
                 binding = (clazz.getMethod("inflate", LayoutInflater::class.java)
@@ -63,7 +65,6 @@ class FragmentInflateBindingProperty<VB : ViewBinding>(private val clazz: Class<
 
 inline fun <reified VM : ViewModel> invokeViewModel() = FragmentViewModelProperty(VM::class.java)
 
-
 class FragmentViewModelProperty<VM : ViewModel>(private val clazz: Class<VM>) :
     ReadOnlyProperty<Any, VM> {
     private var vm: VM? = null
@@ -77,4 +78,5 @@ class FragmentViewModelProperty<VM : ViewModel>(private val clazz: Class<VM>) :
         return vm!!
     }
 }
+
 

@@ -85,12 +85,17 @@
         <activity
             android:name=".ui.pages.publish.CaptureActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/capture" />
+            android:theme="@style/fullScreen" />
 
         <activity
             android:name=".ui.pages.publish.PreviewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/preview" />
+
+        <activity
+            android:name=".ui.pages.detail.FeedDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/fullScreen" />
 
     </application>
 

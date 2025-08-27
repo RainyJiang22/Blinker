@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/dp_10">
+
+    <include
+        android:id="@+id/author_info"
+        layout="@layout/layout_feed_author" />
+
+    <include
+        android:id="@+id/feed_text"
+        layout="@layout/layout_feed_text" />
+
+    <include
+        android:id="@+id/feed_label"
+        layout="@layout/layout_feed_label" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_10"
+        android:background="@color/color_gray2" />
+</LinearLayout>

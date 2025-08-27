@@ -53,7 +53,7 @@ open class AbsListFragment : Fragment(R.layout.layout_abs_list_fragment) {
             )
         )
         feedAdapter = FeedAdapter(getFeedType(), lifecycleOwner = viewLifecycleOwner)
-        val contactAdapter = feedAdapter.withLoadStateFooter(FooterLodStateAdapter())
+        val contactAdapter = feedAdapter.withLoadStateFooter(FooterLoadStateAdapter())
         viewBinding.listView.adapter = contactAdapter
         viewBinding.listView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)

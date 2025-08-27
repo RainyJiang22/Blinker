@@ -2,8 +2,6 @@ package com.blinker.video.ui.pages.detail
 
 import android.view.View
 import androidx.fragment.app.FragmentActivity
-import androidx.recyclerview.widget.RecyclerView
-import com.blinker.video.R
 import com.blinker.video.databinding.LayoutFeedDetailTypeImageBinding
 import com.blinker.video.model.Feed
 import com.blinker.video.ui.utils.PixUtil

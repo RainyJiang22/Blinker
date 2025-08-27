@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.viewbinding.ViewBinding
+import com.google.android.exoplayer2.source.UnrecognizedInputFormatException
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 

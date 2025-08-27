@@ -13,6 +13,11 @@ class VideoViewHandler(context: FragmentActivity) : ViewHandler(context) {
 
     private val viewBinding: LayoutFeedDetailTypeVideoBinding by invokeViewBinding()
 
+
+    init {
+        listView = viewBinding.listView
+    }
+
     override fun getRootView(): View {
         return viewBinding.root
     }

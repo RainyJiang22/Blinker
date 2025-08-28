@@ -46,6 +46,7 @@ import com.blinker.video.ui.utils.setMaterialButton
 import com.blinker.video.ui.utils.setTextColor
 import com.blinker.video.ui.utils.setTextVisibility
 import com.blinker.video.ui.utils.setVisibility
+import com.blinker.video.ui.utils.toggleFeedLike
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -244,19 +245,12 @@ class FeedAdapter constructor(
 
         private fun toggleFeedLike(itemId: Long, like: Boolean) {
             lifecycleOwner.lifecycleScope.launch {
-                UserManager.loginIfNeed()
-                UserManager.getUser().collectLatest {
-                    if (it.userId <= 0) return@collectLatest
-                    val apiResult = if (like) ApiService.getService()
-                        .toggleFeedLike(itemId, it.userId) else ApiService.getService()
-                        .toggleDissFeed(itemId, it.userId)
-                    apiResult.body?.run {
-                        val ugc = snapshot().items[layoutPosition].getUgcOrDefault()
-                        ugc.hasLiked = this.getAsJsonPrimitive("hasLiked").asBoolean
-                        ugc.hasdiss = this.getAsJsonPrimitive("hasdiss").asBoolean
-                        ugc.likeCount = this.getAsJsonPrimitive("likeCount").asInt
-                        notifyItemChanged(layoutPosition, ugc)
-                    }
+                val feedItem = snapshot().items[layoutPosition] ?: return@launch
+                feedItem.toggleFeedLike(like) {
+                    feedItem.getUgcOrDefault().hasLiked = it.hasLiked
+                    feedItem.getUgcOrDefault().hasdiss = it.hasdiss
+                    feedItem.getUgcOrDefault().likeCount = it.likeCount
+                    notifyItemChanged(layoutPosition, feedItem.getUgcOrDefault())
                 }
             }
         }

@@ -45,7 +45,7 @@ class PagePlayDetector(
             } else {
                 // 滑动中需要检测，正在播放的item 是否已经滑出屏幕，如果滑出则停止它
                 if (pageListPlayer.isPlaying && !isTargetInBounds(pageListPlayer.attachedView)) {
-                    pageListPlayer.inActive()
+                    pageListPlayer.stop(false)
                 }
             }
         }
@@ -107,7 +107,7 @@ class PagePlayDetector(
     }
 
     private fun autoPlay() {
-        if (mDetectorListeners.size <= 0 || listView.childCount <= 0) {
+        if (mDetectorListeners.isEmpty() || listView.childCount <= 0) {
             return
         }
 

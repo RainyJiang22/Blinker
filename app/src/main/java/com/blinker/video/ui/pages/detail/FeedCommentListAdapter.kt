@@ -4,7 +4,9 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
+import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
+import androidx.paging.insertHeaderItem
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.blinker.video.databinding.LayoutFeedTopCommentBinding
@@ -20,7 +22,7 @@ class FeedCommentListAdapter(val lifecycleOwner: LifecycleOwner, val context: Co
     PagingDataAdapter<TopComment, FeedCommentListAdapter.ViewHolder>(object :
         DiffUtil.ItemCallback<TopComment>() {
         override fun areItemsTheSame(oldItem: TopComment, newItem: TopComment): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.itemId == newItem.itemId || oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: TopComment, newItem: TopComment): Boolean {
@@ -28,6 +30,8 @@ class FeedCommentListAdapter(val lifecycleOwner: LifecycleOwner, val context: Co
         }
 
     }) {
+
+    private var pagingData:PagingData<TopComment>? = null
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item: TopComment = getItem(position)!!
         holder.bindTopComment(item)
@@ -37,6 +41,16 @@ class FeedCommentListAdapter(val lifecycleOwner: LifecycleOwner, val context: Co
         val binding =
             LayoutFeedTopCommentBinding.inflate(LayoutInflater.from(context), parent, false)
         return ViewHolder(binding)
+    }
+
+    fun insertHeaderItem(comment: TopComment) {
+        val newPagingData = this.pagingData?.insertHeaderItem(item = comment) ?: return
+        this.submitPagingData(newPagingData)
+    }
+
+    fun submitPagingData(pagingData: PagingData<TopComment>) {
+        this.pagingData = pagingData
+        submitData(lifecycleOwner.lifecycle, pagingData)
     }
 
     inner class ViewHolder(private val binding: LayoutFeedTopCommentBinding) :

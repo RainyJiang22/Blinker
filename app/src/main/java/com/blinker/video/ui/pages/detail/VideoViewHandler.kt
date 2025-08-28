@@ -16,6 +16,7 @@ class VideoViewHandler(context: FragmentActivity) : ViewHandler(context) {
 
     init {
         listView = viewBinding.listView
+        bottomInteractionBinding = viewBinding.bottomInteraction
     }
 
     override fun getRootView(): View {

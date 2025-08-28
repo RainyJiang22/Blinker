@@ -10,9 +10,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.blinker.video.R
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.target.BitmapImageViewTarget
+import com.bumptech.glide.request.target.BitmapThumbnailImageViewTarget
 import com.bumptech.glide.request.target.DrawableImageViewTarget
+import com.bumptech.glide.request.target.DrawableThumbnailImageViewTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.button.MaterialButton
 import jp.wasabeef.glide.transformations.BlurTransformation
@@ -67,6 +70,8 @@ fun ImageView.setImageUrl(imageUrl: String?, isCircle: Boolean = false, radius: 
     }
     visibility = View.VISIBLE
     val builder = Glide.with(this).load(imageUrl)
+        .override(measuredWidth,measuredHeight)
+        .diskCacheStrategy(DiskCacheStrategy.ALL)
     if (isCircle) {
         builder.transform(CircleCrop())
     } else if (radius > 0) {
@@ -80,7 +85,9 @@ fun ImageView.setImageUrl(imageUrl: String?, isCircle: Boolean = false, radius: 
 }
 
 fun ImageView.load(imageUrl: String, callback: (Bitmap) -> Unit) {
-    Glide.with(this).asBitmap().load(imageUrl).into(object : BitmapImageViewTarget(this) {
+    Glide.with(this).asBitmap().load(imageUrl)
+        .override(measuredWidth,measuredHeight)
+        .into(object : BitmapImageViewTarget(this) {
         override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
             super.onResourceReady(resource, transition)
             callback(resource)
@@ -90,6 +97,8 @@ fun ImageView.load(imageUrl: String, callback: (Bitmap) -> Unit) {
 
 fun ImageView.setBlurImageUrl(blurUrl: String, radius: Int) {
     Glide.with(this).load(blurUrl)
+        .override(measuredWidth,measuredHeight)
+        .diskCacheStrategy(DiskCacheStrategy.ALL)
         .override(radius)
         .transform(BlurTransformation()).dontAnimate().into(object : DrawableImageViewTarget(this) {
             override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {

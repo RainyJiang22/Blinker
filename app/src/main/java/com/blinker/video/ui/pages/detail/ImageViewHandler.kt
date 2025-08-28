@@ -17,6 +17,7 @@ class ImageViewHandler(context: FragmentActivity) : ViewHandler(context) {
 
     init {
         listView = viewBinding.listView
+        bottomInteractionBinding = viewBinding.bottomInteraction
     }
 
 

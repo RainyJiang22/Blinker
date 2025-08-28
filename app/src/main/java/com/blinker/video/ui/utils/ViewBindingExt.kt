@@ -5,18 +5,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
 import androidx.viewbinding.ViewBinding
-import com.google.android.exoplayer2.source.UnrecognizedInputFormatException
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
 /**
  * @author jiangshiyu
- * @date 2024/12/14
+ * @date 2025/8/27
  */
+
 inline fun <reified VB : ViewBinding> invokeViewBinding() =
     InflateBindingProperty(VB::class.java)
 
@@ -63,21 +60,3 @@ class InflateBindingProperty<VB : ViewBinding>(private val clazz: Class<VB>) :
         return binding!!
     }
 }
-
-inline fun <reified VM : ViewModel> invokeViewModel() = FragmentViewModelProperty(VM::class.java)
-
-class FragmentViewModelProperty<VM : ViewModel>(private val clazz: Class<VM>) :
-    ReadOnlyProperty<Any, VM> {
-    private var vm: VM? = null
-    override fun getValue(thisRef: Any, property: KProperty<*>): VM {
-        if (thisRef !is ViewModelStoreOwner) {
-            throw java.lang.IllegalStateException("invokeViewModel can only be used in ViewModelStoreOwner instance")
-        }
-        if (vm == null) {
-            vm = ViewModelProvider(thisRef, ViewModelProvider.NewInstanceFactory())[clazz]
-        }
-        return vm!!
-    }
-}
-
-

@@ -24,4 +24,26 @@ class FeedCommentViewModel : AbsPagingViewModel<TopComment>() {
         apiResult.nextPageKey = apiResult.body?.lastOrNull()?.commentId
         return apiResult
     }
+
+    suspend fun publishComment(
+        commentText: String,
+        video_url: String?,
+        image_url: String?,
+        width: Int,
+        height: Int
+    ): TopComment? {
+        return kotlin.runCatching {
+            ApiService.getService().addComment(
+                UserManager.userId(),
+                itemId,
+                commentText,
+                video_url,
+                image_url,
+                width,
+                height
+            )
+        }.onFailure {
+            it.printStackTrace()
+        }.getOrNull()?.body
+    }
 }

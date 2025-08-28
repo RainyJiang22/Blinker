@@ -104,7 +104,7 @@ data class TopComment(
 @Parcelize
 data class Ugc(
     var commentCount: Int,
-    val hasFavorite: Boolean,
+    var hasFavorite: Boolean,
     var hasLiked: Boolean,
     var hasdiss: Boolean,
     var likeCount: Int,

@@ -25,6 +25,7 @@
     <string name="feed_comment_empty">还没有评论，快来抢一楼吧</string>
     <string name="comment_hint">友善的皮才是真的皮</string>
     <string name="comment_send_text">发送</string>
+    <string name="comment_publish_fail">评论发布失败</string>
     <string name="capture_tips">轻触拍照，长按摄像</string>
     <string name="capture_tips_stop_recording">松开停止录像</string>
     <string name="capture_tips_take_picture">轻触拍照</string>
@@ -43,8 +44,9 @@
     <string name="publish_exit_action_cancel">取消</string>
     <string name="publish_exit_action_ok">退出</string>
     <string name="tag_title">选择标签</string>
-    <string name="file_upload_cover_message">封面图上传失败</string>
-    <string name="file_upload_original_message">原始文件上传失败</string>
+    <string name="file_upload_generate_cover_fail">视频封面图生成失败</string>
+    <string name="file_upload_cover_fail">封面图上传失败</string>
+    <string name="file_upload_original_fail">原始文件上传失败</string>
     <string name="feed_publisj_success">帖子发布成功,去沙发页看看吧</string>
     <string name="feed_publish_ing">正在发布...</string>
     <string name="tag_list_item_hot_feed">条热门内容</string>

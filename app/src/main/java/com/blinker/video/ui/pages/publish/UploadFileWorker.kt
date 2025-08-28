@@ -15,10 +15,11 @@ class UploadFileWorker(context: Context, workerParams: WorkerParameters) :
     CoroutineWorker(context, workerParams) {
     override suspend fun doWork(): Result {
         val filePath = inputData.getString("file")
+        val isVideo = inputData.getBoolean("video", false)
         return if (TextUtils.isEmpty(filePath)) {
             return Result.failure()
         } else {
-            val fileUrl = AliyunOssUtil.getManager().uploadFeedFiles(filePath)
+            val fileUrl = AliyunOssUtil.getManager().uploadFeedFiles(filePath, isVideo)
             val outputData = Data.Builder().putString("fileUrl", fileUrl).build()
             Result.success(outputData)
         }

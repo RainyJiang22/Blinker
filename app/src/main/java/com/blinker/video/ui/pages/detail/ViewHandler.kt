@@ -3,11 +3,18 @@ package com.blinker.video.ui.pages.detail
 
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.paging.LoadState
+import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.blinker.video.R
@@ -40,6 +47,33 @@ abstract class ViewHandler(val context: FragmentActivity) : IViewBinding, ViewMo
     open fun bindInitData(feed: Feed) {
         this.feedItem = feed
         bindFeedComments()
+        bindBottomInteraction()
+        bindLifecycle()
+    }
+
+    private fun bindLifecycle() {
+        context.lifecycle.addObserver(object : LifecycleEventObserver {
+            override fun onStateChanged(
+                source: LifecycleOwner,
+                event: Lifecycle.Event,
+            ) {
+                when (event) {
+                    Lifecycle.Event.ON_RESUME -> onResume()
+                    Lifecycle.Event.ON_PAUSE -> onPause()
+                    Lifecycle.Event.ON_DESTROY -> onDestroy()
+                    Lifecycle.Event.ON_STOP -> onStop()
+                    else -> {}
+                }
+            }
+
+        })
+
+        context.onBackPressedDispatcher.addCallback(context, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                onBackPressed()
+            }
+
+        })
     }
 
     private fun bindBottomInteraction() {
@@ -53,10 +87,12 @@ abstract class ViewHandler(val context: FragmentActivity) : IViewBinding, ViewMo
             }
         })
         bottomInteractionBinding.inputView.setOnClickListener {
-            context.lifecycleScope.launchWhenStarted {
-                UserManager.loginIfNeed()
-                UserManager.getUser().collectLatest {
-                    commentDialog.show(context.supportFragmentManager, "comment_dialog")
+            context.lifecycleScope.launch {
+                context.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    UserManager.loginIfNeed()
+                    UserManager.getUser().collectLatest {
+                        commentDialog.show(context.supportFragmentManager, "comment_dialog")
+                    }
                 }
             }
         }
@@ -101,6 +137,27 @@ abstract class ViewHandler(val context: FragmentActivity) : IViewBinding, ViewMo
             loadingStateAdapter,
             FooterLoadStateAdapter()
         )
+
+        getHeaderView()?.run {
+            concatAdapter.addAdapter(0, object : LoadStateAdapter<RecyclerView.ViewHolder>() {
+                override fun onBindViewHolder(
+                    holder: RecyclerView.ViewHolder, loadState: LoadState,
+                ) {
+                }
+
+                override fun onCreateViewHolder(
+                    parent: ViewGroup,
+                    loadState: LoadState,
+                ): RecyclerView.ViewHolder {
+                    return object : RecyclerView.ViewHolder(this@run) {}
+                }
+
+                override fun displayLoadStateAsItem(loadState: LoadState): Boolean {
+                    return true
+                }
+            })
+        }
+
         listView.adapter = concatAdapter
         context.lifecycleScope.launch {
             feedCommentListAdapter.addLoadStateListener {
@@ -138,5 +195,15 @@ abstract class ViewHandler(val context: FragmentActivity) : IViewBinding, ViewMo
         get() = context.viewModelStore
 
 
+    open fun getHeaderView(): View? {
+        return null
+    }
+
     abstract fun getRootView(): View
+
+    open fun onBackPressed() {}
+    open fun onStop() {}
+    open fun onPause() {}
+    open fun onResume() {}
+    open fun onDestroy() {}
 }

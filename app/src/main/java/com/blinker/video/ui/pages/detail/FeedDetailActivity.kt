@@ -18,7 +18,7 @@ class FeedDetailActivity : AppCompatActivity() {
 
     companion object {
         private const val KEY_FEED = "key feed"
-        private const val KEY_CATEGORY = "key_category"
+        const val KEY_CATEGORY = "key_category"
         fun startFeedDetailActivity(
             context: Activity, item: Feed,
             category: String,

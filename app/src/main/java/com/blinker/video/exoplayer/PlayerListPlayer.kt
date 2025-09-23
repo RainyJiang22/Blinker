@@ -31,6 +31,7 @@ import java.io.File
  * @author jiangshiyu
  * @date 2024/12/18
  */
+@SuppressLint("InflateParams")
 class PageListPlayer : IListPlayer, Player.Listener, StyledPlayerControlView.VisibilityListener {
     private var exoPlayer: ExoPlayer
     private var exoPlayerView: StyledPlayerView
@@ -100,6 +101,7 @@ class PageListPlayer : IListPlayer, Player.Listener, StyledPlayerControlView.Vis
             if (playing) {
                 inActive()
             } else {
+                this.attachedView = attachView
                 onActive()
             }
         } else {

@@ -18,6 +18,9 @@ class ImageViewHandler(context: FragmentActivity) : ViewHandler(context) {
     init {
         listView = viewBinding.listView
         bottomInteractionBinding = viewBinding.bottomInteraction
+        viewBinding.actionClose.setOnClickListener {
+            context.finish()
+        }
     }
 
 
@@ -29,5 +32,9 @@ class ImageViewHandler(context: FragmentActivity) : ViewHandler(context) {
 
     override fun getRootView(): View {
         return viewBinding.root
+    }
+
+    override fun onBackPressed() {
+        viewBinding.actionClose.performClick()
     }
 }

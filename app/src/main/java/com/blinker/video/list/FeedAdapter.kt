@@ -51,6 +51,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import androidx.core.graphics.drawable.toDrawable
 
 /**
  * @author jiangshiyu
@@ -58,7 +59,7 @@ import kotlinx.coroutines.withContext
  */
 class FeedAdapter constructor(
     private val pageName: String,
-    private val lifecycleOwner: LifecycleOwner
+    private val lifecycleOwner: LifecycleOwner,
 ) :
     PagingDataAdapter<Feed, FeedAdapter.FeedViewHolder>(object : DiffUtil.ItemCallback<Feed>() {
         override fun areItemsTheSame(oldItem: Feed, newItem: Feed): Boolean {
@@ -80,7 +81,7 @@ class FeedAdapter constructor(
     override fun onBindViewHolder(
         holder: FeedViewHolder,
         position: Int,
-        payloads: MutableList<Any>
+        payloads: MutableList<Any>,
     ) {
         if (payloads.isEmpty()) {
             super.onBindViewHolder(holder, position, payloads)
@@ -120,7 +121,7 @@ class FeedAdapter constructor(
             FeedDetailActivity.startFeedDetailActivity(
                 it.context as Activity,
                 feedItem, pageName,
-                holder.feedImage!!
+                holder.feedImage ?: holder.playerView!!
             )
         }
     }
@@ -152,7 +153,7 @@ class FeedAdapter constructor(
             LayoutFeedTopCommentBinding.bind(itemView.findViewById(R.id.feed_comment))
         private val interactionBinding =
             LayoutFeedInteractionBinding.bind(itemView.findViewById(R.id.feed_interaction))
-        private val playerView: WrapperPlayerView? = itemView.findViewById(R.id.feed_video)
+        internal val playerView: WrapperPlayerView? = itemView.findViewById(R.id.feed_video)
 
         fun bindAuthor(author: Author?) {
             author?.run {
@@ -186,7 +187,7 @@ class FeedAdapter constructor(
                         }
                     }
                 } else {
-                    feedImage.background = ColorDrawable(feedItem.backgroundColor)
+                    feedImage.background = feedItem.backgroundColor.toDrawable()
                 }
             }
 

@@ -24,6 +24,7 @@ import com.google.android.exoplayer2.upstream.cache.CacheDataSource
 import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor
 import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import androidx.core.net.toUri
+import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
 import com.google.android.exoplayer2.upstream.DataSpec
 import java.io.File
 
@@ -44,10 +45,10 @@ class PageListPlayer : IListPlayer, Player.Listener, StyledPlayerControlView.Vis
         val application = AppGlobals.getApplication()
         exoPlayer = ExoPlayer.Builder(application).build()
         exoPlayer.repeatMode = Player.REPEAT_MODE_OFF
-
         exoPlayerView = LayoutInflater.from(application).inflate(
             R.layout.layout_exo_player_view, null
         ) as StyledPlayerView
+        exoPlayerView.resizeMode =AspectRatioFrameLayout.RESIZE_MODE_FIT
         exoControllerView = LayoutInflater.from(application).inflate(
             R.layout.layout_exo_player_controller_view, null
         ) as StyledPlayerControlView

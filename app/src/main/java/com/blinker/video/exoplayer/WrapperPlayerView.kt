@@ -25,6 +25,8 @@ import com.google.android.exoplayer2.Player
 class WrapperPlayerView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, defStyleRes: Int = 0
 ) : FrameLayout(context, attrs) {
+    internal var videoHeightPx: Int = 0
+    internal var videoWidthPx: Int = 0
     private var callback: Listener? = null
     private val viewBinding =
         LayoutListWrapperPlayerViewBinding.inflate(LayoutInflater.from(context), this)
@@ -50,6 +52,8 @@ class WrapperPlayerView @JvmOverloads constructor(
             viewBinding.blurBackground.setVisibility(false)
         }
 
+        this.videoWidthPx = widthPx
+        this.videoHeightPx = heightPx
         setSize(widthPx, heightPx, PixUtil.getScreenWidth(), maxHeight)
     }
 
@@ -74,13 +78,13 @@ class WrapperPlayerView @JvmOverloads constructor(
         // 设置高斯模糊背景view的宽高
         val blurParams = viewBinding.blurBackground.layoutParams
         blurParams.width = maxWidth
-        blurParams.height = coverHeight
+        blurParams.height = LayoutParams.MATCH_PARENT
         viewBinding.blurBackground.layoutParams = blurParams
 
         // 设置cover-view封面图的宽高
         val coverParams: LayoutParams = viewBinding.cover.layoutParams as LayoutParams
-        coverParams.width = coverWidth
-        coverParams.height = coverHeight
+        coverParams.width =  LayoutParams.MATCH_PARENT
+        coverParams.height = LayoutParams.MATCH_PARENT
         coverParams.gravity = Gravity.CENTER
         viewBinding.cover.scaleType = ImageView.ScaleType.FIT_CENTER
         viewBinding.cover.layoutParams = coverParams

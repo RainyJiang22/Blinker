@@ -217,7 +217,7 @@ class FeedAdapter constructor(
 
         fun bindTopComment(topComment: TopComment?) {
             commentBinding.bindComment(lifecycleOwner, topComment) {
-                notifyItemChanged(bindingAdapterPosition, it.getUgcOrDefault())
+                notifyItemChanged(bindingAdapterPosition, it)
             }
         }
 

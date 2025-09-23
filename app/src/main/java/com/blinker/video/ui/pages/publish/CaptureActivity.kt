@@ -299,10 +299,8 @@ class CaptureActivity : AppCompatActivity() {
     private fun showFocusPoint(x: Float, y: Float) {
         val focusView = viewBinding.focusPoint
         val alphaAnim = SpringAnimation(focusView, DynamicAnimation.ALPHA, 1f).apply {
-            spring.stiffness =
-                SPRING_STIFFNESS
-            spring.dampingRatio =
-                SPRING_DAMPING_RATIO
+            spring.stiffness = SPRING_STIFFNESS
+            spring.dampingRatio = SPRING_DAMPING_RATIO
             addEndListener { _, _, _, _ ->
                 SpringAnimation(focusView, DynamicAnimation.ALPHA, 0f).apply {
                     spring.stiffness =
@@ -321,6 +319,7 @@ class CaptureActivity : AppCompatActivity() {
             spring.dampingRatio = SPRING_DAMPING_RATIO
         }
 
+        focusView.bringToFront()
         focusView.setVisibility(true)
         focusView.translationX = x - focusView.width / 2
         focusView.translationY = y - focusView.height / 2

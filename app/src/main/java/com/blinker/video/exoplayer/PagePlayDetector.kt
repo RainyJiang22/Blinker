@@ -5,7 +5,11 @@ import androidx.collection.objectListOf
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 /**
  * @author jiangshiyu
@@ -14,11 +18,25 @@ import androidx.recyclerview.widget.RecyclerView
 class PagePlayDetector(
     private val pageName: String,
     private val lifecycleOwner: LifecycleOwner,
-    private val listView: RecyclerView
+    private val listView: RecyclerView,
 ) {
 
     private val mDetectorListeners: MutableList<IPlayDetector> = arrayListOf()
     private val pageListPlayer = PageListPlayer.get(pageName)
+    private val dataChangeObserver = object : RecyclerView.AdapterDataObserver() {
+        override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+            lifecycleOwner.lifecycleScope.launch {
+                lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    delay(500)
+                    autoPlay()
+                }
+            }
+        }
+    }
+
+    init {
+        listView.adapter?.registerAdapterDataObserver(dataChangeObserver)
+    }
 
     fun addDetector(detector: IPlayDetector) {
         mDetectorListeners.add(detector)
@@ -62,8 +80,10 @@ class PagePlayDetector(
                         mDetectorListeners.clear()
                         listView.removeOnScrollListener(scrollListener)
                         listView.removeCallbacks(delayAutoPlayRunnable)
+                        listView.adapter?.unregisterAdapterDataObserver(dataChangeObserver)
                         pageListPlayer.stop(false)
                     }
+
                     else -> {}
                 }
             }

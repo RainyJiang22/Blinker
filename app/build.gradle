@@ -119,6 +119,9 @@ dependencies {
     // oss-sdk
     implementation androidxLibs.osssdk
 
+    // compose
+    implementation composeLibs.bundles.compose
+
     // room
     implementation androidxLibs.bundles.room
     kapt androidxLibs.room.compiler

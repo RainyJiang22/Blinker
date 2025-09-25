@@ -9,6 +9,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityOptionsCompat
 import com.blinker.video.model.Feed
 import com.blinker.video.model.TYPE_IMAGE_TEXT
+import com.blinker.video.model.TYPE_TEXT
+import com.blinker.video.model.TYPE_VIDEO
+import com.blinker.video.ui.utils.parcelable
 
 /**
  * @author jiangshiyu
@@ -42,15 +45,29 @@ class FeedDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val feed: Feed? = intent.getParcelableExtra(KEY_FEED) as? Feed
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
+        val feed: Feed? = intent.parcelable<Feed>(KEY_FEED)
         if (feed == null) {
             finish()
             return
         }
-        viewHandler = if (feed.itemType == TYPE_IMAGE_TEXT) {
-            ImageViewHandler(this)
-        } else {
-            VideoViewHandler(this)
+
+        viewHandler = when (feed.itemType) {
+            TYPE_VIDEO -> {
+                VideoViewHandler(this)
+            }
+
+            TYPE_TEXT -> {
+                TextViewHandler(this)
+            }
+
+            TYPE_IMAGE_TEXT -> {
+                ImageViewHandler(this)
+            }
+
+            else -> {
+                TextViewHandler(this)
+            }
         }
         viewHandler?.bindInitData(feed)
         setContentView(viewHandler?.getRootView())

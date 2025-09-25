@@ -1,20 +1,18 @@
 package com.blinker.video.ui.pages.detail
 
-import android.text.TextUtils
 import android.view.View
 import androidx.fragment.app.FragmentActivity
-import com.blinker.video.databinding.LayoutFeedDetailTypeImageBinding
+import com.blinker.video.databinding.LayoutFeedDetailTypeTextBinding
 import com.blinker.video.model.Feed
-import com.blinker.video.ui.utils.PixUtil
-import com.blinker.video.ui.utils.bindFeedImage
 import com.blinker.video.ui.utils.invokeViewBinding
 
 /**
  * @author jiangshiyu
- * @date 2025/8/27
+ * @date 2025/9/25
+ * 纯文本
  */
-class ImageViewHandler(context: FragmentActivity) : ViewHandler(context) {
-    private val viewBinding: LayoutFeedDetailTypeImageBinding by invokeViewBinding()
+class TextViewHandler(context: FragmentActivity) : ViewHandler(context) {
+    private val viewBinding: LayoutFeedDetailTypeTextBinding by invokeViewBinding()
 
     init {
         listView = viewBinding.listView
@@ -27,11 +25,7 @@ class ImageViewHandler(context: FragmentActivity) : ViewHandler(context) {
 
     override fun bindInitData(feed: Feed) {
         super.bindInitData(feed)
-        viewBinding.feedImage.bindFeedImage(getLifecycleOwner(), feed, PixUtil.dp2px(250))
-        bindAuthorInfo(viewBinding.feedAuthor, viewBinding.feedText, viewBinding.feedLabel)
-        if (TextUtils.isEmpty(feed.url)) {
-            viewBinding.feedAuthor.root.setPadding(0, PixUtil.dp2px(25), 0, 0)
-        }
+        bindAuthorInfo(viewBinding.feedAuthor,viewBinding.feedText, viewBinding.feedLabel)
     }
 
     override fun getRootView(): View {
@@ -41,4 +35,6 @@ class ImageViewHandler(context: FragmentActivity) : ViewHandler(context) {
     override fun onBackPressed() {
         viewBinding.actionClose.performClick()
     }
+
+
 }

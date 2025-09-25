@@ -87,12 +87,10 @@ abstract class ViewHandler(val context: FragmentActivity) : IViewBinding, ViewMo
             }
         })
         bottomInteractionBinding.inputView.setOnClickListener {
-            context.lifecycleScope.launch {
-                context.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    UserManager.loginIfNeed()
-                    UserManager.getUser().collectLatest {
-                        commentDialog.show(context.supportFragmentManager, "comment_dialog")
-                    }
+            context.lifecycleScope.launchWhenStarted {
+                UserManager.loginIfNeed()
+                UserManager.getUser().collectLatest {
+                    commentDialog.show(context.supportFragmentManager, "comment_dialog")
                 }
             }
         }
@@ -176,7 +174,7 @@ abstract class ViewHandler(val context: FragmentActivity) : IViewBinding, ViewMo
         feedTextBinding: LayoutFeedTextBinding,
         feedLabelBinding: LayoutFeedLabelBinding,
     ) {
-        authorInfoBinding.authorAvatar.setImageUrl(feedItem.author?.avatar)
+        authorInfoBinding.authorAvatar.setImageUrl(feedItem.author?.avatar, true)
         authorInfoBinding.authorName.text = feedItem.author?.name
         feedTextBinding.feedText.setTextVisibility(feedItem.feedsText)
 

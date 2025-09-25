@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/feed_image_container"
+        android:id="@+id/feed_text_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/color_white"
@@ -15,13 +15,12 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <View
             android:id="@+id/feed_image"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginBottom="@dimen/dp_10"
-            android:transitionName="share_view"
-            tools:layout_height="200dp" />
+            android:transitionName="share_view" />
 
         <include
             android:id="@+id/feed_author"
@@ -47,7 +46,7 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_interaction"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/feed_image_container"
+        app:layout_constraintTop_toBottomOf="@+id/feed_text_container"
         app:layout_constraintVertical_weight="1"
         tools:listitem="@layout/layout_feed_top_comment" />
 
@@ -64,5 +63,5 @@
         android:fitsSystemWindows="true"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/icon_left_arrow_white"
-        app:tint="@color/white" />
+        app:tint="@color/black" />
 </androidx.constraintlayout.widget.ConstraintLayout>

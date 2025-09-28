@@ -19,4 +19,9 @@ object PixUtil {
         val metrics = AppGlobals.getApplication().resources.displayMetrics
         return metrics.heightPixels
     }
+    fun screenWidthDp(): Float {
+        val metrics = AppGlobals.getApplication().resources.displayMetrics
+        return getScreenWidth() / metrics.density
+    }
+    
 }

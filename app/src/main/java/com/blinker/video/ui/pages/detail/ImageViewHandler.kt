@@ -3,6 +3,7 @@ package com.blinker.video.ui.pages.detail
 import android.text.TextUtils
 import android.view.View
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModelStore
 import com.blinker.video.databinding.LayoutFeedDetailTypeImageBinding
 import com.blinker.video.model.Feed
 import com.blinker.video.ui.utils.PixUtil
@@ -41,4 +42,7 @@ class ImageViewHandler(context: FragmentActivity) : ViewHandler(context) {
     override fun onBackPressed() {
         viewBinding.actionClose.performClick()
     }
+
+    override val viewModelStore: ViewModelStore
+        get() = context.viewModelStore
 }

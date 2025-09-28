@@ -36,6 +36,7 @@
       "size": 24,
       "enable": true,
       "index": 4,
+      "needLogin":true,
       "route": "user_fragment",
       "title": "我的"
     }

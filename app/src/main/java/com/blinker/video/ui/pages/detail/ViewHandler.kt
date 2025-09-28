@@ -189,7 +189,8 @@ abstract class ViewHandler(val context: FragmentActivity) : IViewBinding, ViewMo
         return context
     }
 
-    override val viewModelStore: ViewModelStore = context.viewModelStore
+    override val viewModelStore: ViewModelStore
+        get() = context.viewModelStore
 
 
     open fun getHeaderView(): View? {

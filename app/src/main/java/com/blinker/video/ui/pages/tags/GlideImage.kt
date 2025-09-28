@@ -57,7 +57,9 @@ fun GlideImage(
             DiskCacheStrategy.ALL
         ).into(target)
         onDispose {
-            Glide.with(context).clear(target)
+            runCatching {
+                Glide.with(context).clear(target)
+            }
         }
     }
     Surface(color = colorState, modifier = modifier) {

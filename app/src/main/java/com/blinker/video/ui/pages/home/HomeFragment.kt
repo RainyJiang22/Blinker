@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.withStarted
 import com.blinker.video.list.AbsListFragment
 import com.blinker.video.plugin.runtime.NavDestination
 import com.blinker.video.ui.utils.invokeViewModel
@@ -22,9 +23,11 @@ class HomeFragment : AbsListFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launch {
-            viewModel.setFeedType(getFeedType())
-            viewModel.pageFlow.collectLatest {
-                submitData(it)
+            viewModel.pageFlow.collect {
+                lifecycle.withStarted {
+                    submitData(it)
+                    viewModel.setFeedType(getFeedType())
+                }
             }
         }
     }

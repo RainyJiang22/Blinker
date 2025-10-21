@@ -12,7 +12,14 @@ class BlinkerApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        AliyunOssUtil.init(this)
-        Timber.plant(Timber.DebugTree())
+
+        SimpleLauncher.getInstance().init(this)
+
+        SimpleLauncher.getInstance().addTasks(
+            listOf(
+                OssTask(this),
+                TimberTask()
+            )
+        )
     }
 }

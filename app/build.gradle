@@ -19,9 +19,9 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        javaCompileOptions{
-            annotationProcessorOptions{
-                arguments=["room.schemaLocation":"$projectDir/schemas".toString()]
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
             }
         }
         vectorDrawables {
@@ -106,7 +106,6 @@ dependencies {
     implementation libs.glide.transformations
 
 
-
     // qq-open-sdk
     implementation androidxLibs.qqopensdk
 
@@ -127,4 +126,6 @@ dependencies {
     kapt androidxLibs.room.compiler
 
     implementation(libs.androidx.constraintlayout.compose)
+    implementation(libs.lottie)
+    implementation libs.timber
 }

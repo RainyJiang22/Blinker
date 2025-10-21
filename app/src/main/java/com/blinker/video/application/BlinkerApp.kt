@@ -2,6 +2,7 @@ package com.blinker.video.application
 
 import android.app.Application
 import com.blinker.video.ui.utils.AliyunOssUtil
+import timber.log.Timber
 
 /**
  * @author jiangshiyu
@@ -12,5 +13,6 @@ class BlinkerApp : Application() {
     override fun onCreate() {
         super.onCreate()
         AliyunOssUtil.init(this)
+        Timber.plant(Timber.DebugTree())
     }
 }

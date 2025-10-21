@@ -25,8 +25,8 @@ class HomeFragment : AbsListFragment() {
         lifecycleScope.launch {
             viewModel.pageFlow.collect {
                 lifecycle.withStarted {
-                    submitData(it)
                     viewModel.setFeedType(getFeedType())
+                    submitData(it)
                 }
             }
         }

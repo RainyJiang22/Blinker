@@ -2,23 +2,13 @@ package com.blinker.video.ui.pages.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.blinker.video.databinding.ActivityLayoutLoginBinding
-import com.blinker.video.http.ApiService
 import com.blinker.video.ui.utils.invokeViewBinding
-import com.tencent.connect.UserInfo
-import com.tencent.connect.common.Constants
-import com.tencent.tauth.IUiListener
-import com.tencent.tauth.Tencent
-import com.tencent.tauth.UiError
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import org.json.JSONObject
-import java.util.logging.Logger
 
 /**
  * @author jiangshiyu
@@ -26,92 +16,45 @@ import java.util.logging.Logger
  * 登录
  */
 class LoginActivity : AppCompatActivity() {
-    private lateinit var tencent: Tencent
+
     private val viewBinding: ActivityLayoutLoginBinding by invokeViewBinding()
+    private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
+
         viewBinding.actionClose.setOnClickListener { finish() }
+        viewModel.initTencent(applicationContext)
 
-        viewBinding.actionLogin.setOnClickListener { login() }
-
-        tencent = Tencent.createInstance("1108832891", applicationContext)
-    }
-
-    private fun login() {
-        tencent.login(this, "all", loginListener)
-    }
-
-    private val loginListener = object : LoginListener() {
-
-        override fun onComplete(ret: Any) {
-            val response = ret as JSONObject
-            val openid = response.getString("openid")
-            val accessToken = response.getString("access_token")
-            val expiresIn = response.getLong("expires_in")
-            tencent.openId = openid
-            tencent.setAccessToken(accessToken, expiresIn.toString())
-            getUserInfo()
+        viewBinding.actionLogin.setOnClickListener {
+            viewModel.login(this)
         }
+
+        collectUiState()
     }
 
-    private fun getUserInfo() {
-        val userInfo = UserInfo(applicationContext, tencent.qqToken)
-        userInfo.getUserInfo(object : LoginListener() {
-            override fun onComplete(any: Any) {
-                super.onComplete(any)
-                Log.i("Login", "onComplete: $any")
-                val response = any as JSONObject
-                val nickname = response.optString("nickname")
-                val avatar = response.optString("figureurl_2")
-                save(nickname, avatar)
-            }
-        })
-    }
-
-    private fun save(nickname: String, avatar: String) {
+    private fun collectUiState() {
         lifecycleScope.launch {
-            val apiResult = ApiService.getService()
-                .saveUser(nickname, avatar, tencent.openId, tencent.expiresIn)
-            if (apiResult.success && apiResult.body != null) {
-                UserManager.save(apiResult.body!!)
-                finish()
-            } else {
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(this@LoginActivity, "登录失败", Toast.LENGTH_SHORT).show()
+            viewModel.uiState.collect { state ->
+                when (state) {
+                    is LoginState.Idle -> Unit
+                    is LoginState.Loading -> {
+                    }
+                    is LoginState.Success -> {
+                        Toast.makeText(this@LoginActivity, "登录成功", Toast.LENGTH_SHORT).show()
+                        finish()
+                    }
+                    is LoginState.Error -> {
+                        Toast.makeText(this@LoginActivity, state.message, Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
     }
 
-
-    private open inner class LoginListener : IUiListener {
-        override fun onComplete(p0: Any) {
-
-        }
-
-        override fun onError(err: UiError) {
-            Toast.makeText(
-                this@LoginActivity, "登录失败:reason${err.errorMessage}", Toast.LENGTH_SHORT
-            ).show()
-        }
-
-        override fun onCancel() {
-            Toast.makeText(this@LoginActivity, "登录失败", Toast.LENGTH_SHORT).show()
-        }
-
-        override fun onWarning(p0: Int) {
-
-        }
-    }
-
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == Constants.REQUEST_LOGIN) {
-            Tencent.onActivityResultData(requestCode, resultCode, data, loginListener)
-        }
+        viewModel.handleActivityResult(requestCode, resultCode, data)
     }
-
 }

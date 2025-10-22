@@ -1,6 +1,5 @@
 package com.blinker.video.ui.utils
 
-import android.content.Context
 import com.blinker.video.model.BottomBar
 import com.blinker.video.model.Category
 import com.google.gson.Gson
@@ -14,6 +13,11 @@ import java.io.InputStreamReader
  * @date 2024/12/11
  */
 object AppConfig {
+
+    /**
+     * QQ 应用 ID
+     */
+    const val QQ_APP_ID = "1108832891"
 
     private var sBottomBar: BottomBar? = null
     private var sCategory: Category? = null

@@ -7,16 +7,11 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import androidx.work.Data
-import androidx.work.OneTimeWorkRequest
-import androidx.work.WorkInfo
-import androidx.work.WorkManager
 import com.blinker.video.databinding.ActivityLayoutPublishBinding
 import com.blinker.video.http.ApiService
 import com.blinker.video.model.TagList
 import com.blinker.video.plugin.runtime.NavDestination
 import com.blinker.video.ui.pages.login.UserManager
-import com.blinker.video.ui.utils.FileUtil
 import com.blinker.video.ui.utils.invokeViewBinding
 import com.blinker.video.ui.utils.setImageUrl
 import com.blinker.video.ui.utils.setVisibility
@@ -24,7 +19,6 @@ import com.google.android.exoplayer2.util.MimeTypes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.UUID
 
 /**
  * @author jiangshiyu
@@ -168,15 +162,22 @@ class PublishActivity : AppCompatActivity() {
         if (TextUtils.isEmpty(filePath)) return
         viewBinding.actionAddFile.setVisibility(false)
         viewBinding.fileContainer.setVisibility(true)
+        val isVideo = MimeTypes.isVideo(mimeType)
         viewBinding.cover.setImageUrl(filePath)
-        viewBinding.videoIcon.setVisibility(MimeTypes.isVideo(mimeType))
+        viewBinding.videoIcon.setVisibility(isVideo)
+        viewBinding.actionVideoCapture.setVisibility(isVideo)
         viewBinding.cover.setOnClickListener {
             PreviewActivity.startActivityForResult(this, filePath!!, true, null)
+        }
+
+        viewBinding.actionVideoCapture.setOnClickListener {
+            VideoCaptureActivity.start(this,filePath)
         }
 
         viewBinding.actionDeleteFile.setOnClickListener {
             viewBinding.actionAddFile.setVisibility(true)
             viewBinding.fileContainer.setVisibility(false)
+            viewBinding.actionVideoCapture.setVisibility(false)
             viewBinding.cover.setImageDrawable(null)
             filePath = null
             mimeType = null

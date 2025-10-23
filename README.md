@@ -4,7 +4,7 @@
 > 采用 **MVVM 架构 + Hilt 依赖注入 + ExoPlayer 播放器封装**，展示 Kotlin 在移动端的最佳实践，主要功能模块已基本完成
 
 ---
-![Kotlin](https://img.shields.io/badge/Kotlin-1.9-blue?logo=kotlin) ![Compose](https://img.shields.io/badge/Jetpack%20Compose-UI-brightgreen?logo=android)![License](https://img.shields.io/badge/license-MIT-orange)![Platform](https://img.shields.io/badge/platform-Android-lightgrey)![Build](https://img.shields.io/badge/Gradle-KTS-green)
+![Kotlin](https://img.shields.io/badge/Kotlin-1.9-blue?logo=kotlin) ![Compose](https://img.shields.io/badge/Jetpack%20Compose-UI-brightgreen?logo=android)  ![License](https://img.shields.io/badge/license-MIT-orange) ![Platform](https://img.shields.io/badge/platform-Android-lightgrey) ![Build](https://img.shields.io/badge/Gradle-KTS-green)
 ---
 
 ## 🚀 功能与特性
@@ -48,7 +48,7 @@
 ## 🧩 TODO / 未来计划
 - [ ] 微信登录接入
 - [ ] 视频上传接口完善
-- [ ] 增加支持本地视频拍摄与剪辑功能
+- [x] 增加支持本地视频拍摄与剪辑功能
 - [ ] 增加评论系统表情包支持
 - [ ] 增加多语言与国际化（中/英）
 - [ ] 性能优化与内存监控  

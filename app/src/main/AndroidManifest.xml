@@ -97,6 +97,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/fullScreen" />
 
+        <activity
+            android:name=".ui.pages.publish.VideoCaptureActivity"
+            android:exported="false"
+            android:theme="@style/fullScreen"
+            android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>

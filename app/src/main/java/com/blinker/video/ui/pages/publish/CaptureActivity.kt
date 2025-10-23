@@ -27,7 +27,6 @@ import androidx.camera.core.CameraSelector
 import androidx.camera.core.FocusMeteringAction
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
-import androidx.camera.core.Logger
 import androidx.camera.core.Preview
 import androidx.camera.core.ResolutionSelector
 import androidx.camera.lifecycle.ProcessCameraProvider

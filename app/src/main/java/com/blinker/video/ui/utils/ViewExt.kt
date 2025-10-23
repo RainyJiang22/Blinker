@@ -2,12 +2,23 @@ package com.blinker.video.ui.utils
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
+import android.content.res.Resources
 import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Matrix
+import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
+import android.graphics.Rect
+import android.graphics.RectF
 import android.graphics.drawable.Drawable
 import android.text.TextUtils
+import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.FloatRange
 import com.blinker.video.R
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -20,6 +31,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.button.MaterialButton
 import jp.wasabeef.glide.transformations.BlurTransformation
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation
+import androidx.core.graphics.createBitmap
 
 /**
  * @author jiangshiyu
@@ -106,4 +118,116 @@ fun ImageView.setBlurImageUrl(blurUrl: String, radius: Int) {
                 background = resource
             }
         })
+}
+
+val Float.dp
+    get() = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,
+        this,
+        Resources.getSystem().displayMetrics
+    )
+
+val Float.px
+    get() = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_PX,
+        this,
+        Resources.getSystem().displayMetrics
+    )
+
+val Float.sp
+    get() = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_SP,
+        this,
+        Resources.getSystem().displayMetrics
+    )
+
+val Int.dp
+    get() = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,
+        this.toFloat(),
+        Resources.getSystem().displayMetrics
+    )
+
+fun Bitmap.alphaAndCorner(
+    @FloatRange(from = 0.0, to = 1.0) alpha: Float,
+    targetW: Int,
+    targetH: Int,
+    radius: Float = 15f.dp,
+): Bitmap {
+    val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+    paint.xfermode = null
+    val outputBitmap = createBitmap(targetW, targetH)
+    val canvas = Canvas(outputBitmap)
+    val targetRectF = RectF(0f, 0f, targetW.toFloat(), targetH.toFloat())
+    val srcRect = Rect()
+
+    val targetScale = targetW.toFloat() / targetH
+    val srcScale = width.toFloat() / height.toFloat()
+    if (targetScale > srcScale) {
+        val h = (width.toFloat() / targetScale).toInt()
+        srcRect.set(0, 0, width, h)
+        srcRect.offset(0, height / 2 - srcRect.height() / 2)
+    } else {
+        val w = (height.toFloat() * targetScale).toInt()
+        srcRect.set(0, 0, w, height)
+        srcRect.offset(width / 2 - srcRect.width() / 2, 0)
+    }
+    if (radius != 0f) {
+        paint.color = Color.BLACK
+        canvas.drawRoundRect(targetRectF, radius, radius, paint)
+        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
+    }
+    paint.alpha = (alpha * 255).toInt()
+    canvas.drawBitmap(this, srcRect, targetRectF, paint)
+    paint.alpha = 255
+    return outputBitmap
+}
+
+/**
+ * 将 Bitmap 以 centerCrop 方式绘制到指定 Rect
+ *
+ * @param canvas 目标画布
+ * @param bitmap 源 Bitmap
+ * @param destRect 目标绘制区域
+ */
+fun drawBitmapCenterCrop(canvas: Canvas, bitmap: Bitmap, destRect: RectF) {
+    // 计算源 Bitmap 和目标 Rect 的宽高比
+    val srcWidth = bitmap.width.toFloat()
+    val srcHeight = bitmap.height.toFloat()
+    val destWidth = destRect.width()
+    val destHeight = destRect.height()
+
+    val srcRatio = srcWidth / srcHeight
+    val destRatio = destWidth / destHeight
+
+    // 创建变换矩阵
+    val matrix = Matrix()
+
+    // 根据宽高比决定缩放方式
+    if (srcRatio > destRatio) {
+        // 源图像更宽，需要缩放高度以匹配目标高度，然后裁剪宽度
+        val scale = destHeight / srcHeight
+        matrix.postScale(scale, scale)
+
+        // 计算缩放后的宽度
+        val scaledWidth = srcWidth * scale
+
+        // 计算水平偏移量以居中裁剪
+        val dx = (scaledWidth - destWidth) / -2
+        matrix.postTranslate(dx, 0f)
+    } else {
+        // 源图像更高，需要缩放宽度以匹配目标宽度，然后裁剪高度
+        val scale = destWidth / srcWidth
+        matrix.postScale(scale, scale)
+
+        // 计算缩放后的高度
+        val scaledHeight = srcHeight * scale
+
+        // 计算垂直偏移量以居中裁剪
+        val dy = (scaledHeight - destHeight) / -2
+        matrix.postTranslate(0f, dy)
+    }
+
+    // 绘制 Bitmap
+    canvas.drawBitmap(bitmap, matrix, null)
 }

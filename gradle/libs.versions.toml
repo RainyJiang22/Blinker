@@ -23,6 +23,7 @@ material = "1.10.0"
 pluginPublish = "1.1.0"
 timber = "4.7.0"
 workRuntimeKtx = "2.10.3"
+ffmpeg-min-gpl = "6.0"
 
 [libraries]
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activityKtx" }
@@ -54,6 +55,7 @@ lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "workRuntimeKtx" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
+ffmpeg-kit = { module = "com.arthenica:ffmpeg-kit-min-gpl", version.ref = "ffmpeg-min-gpl" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

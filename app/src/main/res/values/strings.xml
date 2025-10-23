@@ -68,4 +68,6 @@
     <string name="fragment_my_logout_ok">确定</string>
     <string name="fragment_my_logout_cancel">取消</string>
     <string name="feed_detail_hint">友善的皮才是真的皮</string>
+    <string name="tailor_cutout_video_fail">裁剪失败</string>
+    <string name="tailor_cutout_video_length_short">裁剪时长必须大于0</string>
 </resources>

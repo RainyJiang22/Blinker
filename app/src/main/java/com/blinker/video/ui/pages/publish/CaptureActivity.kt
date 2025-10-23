@@ -53,6 +53,8 @@ import com.google.android.exoplayer2.util.MimeTypes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.concurrent.TimeUnit
@@ -99,7 +101,7 @@ class CaptureActivity : AppCompatActivity() {
         private const val RELATIVE_PATH_VIDEO = "Movies/Blinker"
 
         // request code
-        internal const val REQ_CAPTURE = 10001
+        const val REQ_CAPTURE = 10001
         private const val PERMISSION_CODE = 1000
 
         // output file information
@@ -452,49 +454,51 @@ class CaptureActivity : AppCompatActivity() {
     }
 
     private fun onFileSaved(savedUri: Uri) {
-        // 1.取出录制视频或图片的宽高，以及本地路径
-        lifecycleScope.launch {
-            val cursor = contentResolver.query(
-                savedUri,
-                arrayOf(
-                    MediaStore.MediaColumns.DATA,
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val projection = arrayOf(
                     MediaStore.MediaColumns.WIDTH,
                     MediaStore.MediaColumns.HEIGHT,
-                    MediaStore.MediaColumns.MIME_TYPE
-                ),
-                null,
-                null, null
-            ) ?: return@launch
-            cursor.moveToFirst()
-
-            this@CaptureActivity.outputFilePath =
-                cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA))
-            this@CaptureActivity.outputFileMimeType =
-                cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.MIME_TYPE))
-            this@CaptureActivity.outputFileWidth =
-                cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.WIDTH))
-            this@CaptureActivity.outputFileHeight =
-                cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.HEIGHT))
-            cursor.close()
-
-            MediaScannerConnection.scanFile(
-                this@CaptureActivity,
-                arrayOf(outputFilePath),
-                arrayOf(outputFileMimeType),
-                null
-            )
-
-            withContext(Dispatchers.Main) {
-                // 2. 跳转到预览页面，进行效果预览
-                val video = MimeTypes.isVideo(this@CaptureActivity.outputFileMimeType)
-                PreviewActivity.startActivityForResult(
-                    this@CaptureActivity,
-                    this@CaptureActivity.outputFilePath!!,
-                    video,
-                    getString(R.string.preview_ok)
+                    MediaStore.MediaColumns.MIME_TYPE,
+                    MediaStore.MediaColumns.DISPLAY_NAME
                 )
+                contentResolver.query(savedUri, projection, null, null, null)?.use { cursor ->
+                    if (cursor.moveToFirst()) {
+                        val width = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.WIDTH))
+                        val height = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.HEIGHT))
+                        val mimeType = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.MIME_TYPE))
+                        val name = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME))
+
+                        // 将文件复制到 app 缓存目录
+                        val cacheFile = File(filesDir, name)
+                        contentResolver.openInputStream(savedUri)?.use { input ->
+                            FileOutputStream(cacheFile).use { output ->
+                                input.copyTo(output)
+                            }
+                        }
+
+                        // 回到主线程更新 UI
+                        withContext(Dispatchers.Main) {
+                            this@CaptureActivity.outputFilePath = cacheFile.absolutePath
+                            this@CaptureActivity.outputFileMimeType = mimeType
+                            this@CaptureActivity.outputFileWidth = width
+                            this@CaptureActivity.outputFileHeight = height
+
+                            val video = MimeTypes.isVideo(mimeType)
+                            PreviewActivity.startActivityForResult(
+                                this@CaptureActivity,
+                                cacheFile.absolutePath,
+                                video,
+                                getString(R.string.preview_ok)
+                            )
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("CaptureActivity", "Error reading media info", e)
             }
         }
     }
+
 
 }

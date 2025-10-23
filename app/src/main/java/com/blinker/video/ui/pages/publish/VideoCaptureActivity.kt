@@ -1,5 +1,6 @@
 package com.blinker.video.ui.pages.publish
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -14,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import com.blinker.video.R
 import com.blinker.video.base.BaseActivity
 import com.blinker.video.databinding.TailorActivityVideoCaptureBinding
+import com.blinker.video.ui.pages.publish.CaptureActivity.Companion.REQ_CAPTURE
 import com.blinker.video.ui.pages.publish.CaptureActivity.Companion.RESULT_FILE_PATH
 import com.blinker.video.ui.utils.VideoUtil
 import com.blinker.video.ui.utils.dp
@@ -45,12 +47,12 @@ class VideoCaptureActivity :
          */
         private const val MIN_LENGTH = 500L
         private const val EXT_MEDIA = "EXT_MEDIA"
-        fun start(context: Context, uri: String?) {
-            val intent = Intent(context, VideoCaptureActivity::class.java)
+        fun start(activity: Activity, uri: String?) {
+            val intent = Intent(activity, VideoCaptureActivity::class.java)
             if (uri != null) {
                 intent.putExtra(EXT_MEDIA, uri)
             }
-            context.startActivity(intent)
+            activity.startActivityForResult(intent, REQ_CAPTURE)
         }
     }
 
@@ -76,7 +78,7 @@ class VideoCaptureActivity :
             binding?.loading?.show()
             val duration = player?.duration ?: 0L
             if (duration == 0L) {
-               binding?.loading?.hide()
+                binding?.loading?.hide()
                 Toast.makeText(
                     this@VideoCaptureActivity,
                     R.string.tailor_cutout_video_fail, Toast.LENGTH_SHORT
@@ -104,7 +106,7 @@ class VideoCaptureActivity :
                             R.string.tailor_cutout_video_fail, Toast.LENGTH_SHORT
                         ).show()
                     }
-                }) { path->
+                }) { path ->
                 lifecycleScope.launch(Dispatchers.Main) {
                     binding?.loading?.hide()
 //                    val dialog = SaveSucDialog()
@@ -312,11 +314,11 @@ class VideoCaptureActivity :
         override fun onPlaybackStateChanged(playbackState: Int) {
             when (playbackState) {
                 Player.STATE_IDLE -> {
-                        Log.d(TAG, "准备中...")
+                    Log.d(TAG, "准备中...")
                 }
 
                 Player.STATE_BUFFERING -> {
-                        Log.d(TAG, "缓冲中...")
+                    Log.d(TAG, "缓冲中...")
                 }
 
                 Player.STATE_READY -> {
@@ -397,10 +399,10 @@ class VideoCaptureActivity :
             return
         }
 
-        val uri = if (uriPath!!.startsWith("file://")) {
-            Uri.fromFile(File(uriPath))
-        } else {
-            uriPath!!.toUri()
+        val uri = when {
+            uriPath!!.startsWith("content://") -> uriPath!!.toUri()
+            uriPath!!.startsWith("file://") -> Uri.fromFile(File(uriPath))
+            else -> Uri.fromFile(File(uriPath))
         }
         playVideo(uri)
         binding?.ivBack?.setOnClickListener { finish() }
